@@ -31,10 +31,19 @@ class IndexController extends AbstractController
     {
         $user = $this->request->input('user', 'Hyperf');
         $method = $this->request->getMethod();
+        $tagNameList = [];
+        $tagList = Tag::all();
+        // $tagList = Tag::query()->get();
+        $tagList->reject(function ($user) use ($tagNameList) {
+            array_push($tagNameList, $user->tag_name);
+            print_r($tagNameList);
+            return $tagNameList;
+        });
 
         return [
             'method' => $method,
             'message' => "Hello {$user}.",
+            'tagNameList' => $tagNameList,
             'tagList' => Db::table('tag')->get()
         ];
     }
