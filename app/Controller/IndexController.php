@@ -11,6 +11,8 @@ declare(strict_types=1);
  */
 
 namespace App\Controller;
+use App\Model\Tag;
+use Hyperf\DbConnection\Db;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\RequestMapping;
 
@@ -33,6 +35,7 @@ class IndexController extends AbstractController
         return [
             'method' => $method,
             'message' => "Hello {$user}.",
+            'tagList' => Db::table('tag')->get()
         ];
     }
 }
