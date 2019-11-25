@@ -50,7 +50,7 @@ class AuthMiddleware implements MiddlewareInterface
     /**
      * @var string
      */
-    public static $authHeader = '';
+    public static $authToken = '';
 
     /**
      * AuthMiddleware constructor.
@@ -62,8 +62,8 @@ class AuthMiddleware implements MiddlewareInterface
     {
         $this->container = $container;
         $this->response = $response;
-        $this->challenge();
         $this->request = $request;
+        $this->challenge();
     }
 
     /**
@@ -99,7 +99,8 @@ class AuthMiddleware implements MiddlewareInterface
         if (!empty($header) && $header[0] !== null) {
             if ($this->pattern !== null) {
                 if (preg_match($this->pattern, $header[0], $matches)) {
-                    self::$authHeader = $matches[1];
+                    self::$authToken = $matches[1];
+
                 } else {
                     return null;
                 }

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
-use Hyperf\Logger\LoggerFactory;
 use Psr\Container\ContainerInterface;
 
 class StdoutLoggerFactory

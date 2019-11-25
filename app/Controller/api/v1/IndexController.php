@@ -11,8 +11,6 @@ declare(strict_types=1);
  */
 
 namespace App\Controller\api\v1;
-use App\Model\Tag;
-use Hyperf\DbConnection\Db;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\RequestMapping;
 
@@ -29,21 +27,12 @@ class IndexController extends BaseController
      */
     public function index()
     {
-        $user = $this->request->input('user', 'Hyperf');
+        $user = $this->request->input('user', 'MQCMS');
         $method = $this->request->getMethod();
-        $tagNameList = [];
-        // $tagList = Tag::all();
-        // $tagList = Tag::query()->get();
-        // $tagList->reject(function ($user) use ($tagNameList) {
-        //     array_push($tagNameList, $user->tag_name);
-        //     return $tagNameList;
-        // });
 
         return [
             'method' => $method,
             'message' => "Hello {$user}.",
-            'tagNameList' => $tagNameList,
-            'tagList' => Db::table('tag')->get()
         ];
     }
 }

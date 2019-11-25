@@ -21,6 +21,14 @@ Router::addGroup('/api/', function () {
 
         Router::get('index', 'App\Controller\api\v1\IndexController@index');
 
+        // token
+        Router::addGroup('token/', function () {
+            // 创建token
+            Router::post('create', 'App\Controller\api\v1\TokenController@create');
+            // 获取token信息
+            Router::get('info', 'App\Controller\api\v1\TokenController@index', ['middleware' => [AuthMiddleware::class]]);
+        });
+
         // 标签
         Router::addGroup('tag/', function () {
             Router::get('index', 'App\Controller\api\v1\TagController@index');
