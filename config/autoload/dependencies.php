@@ -11,4 +11,5 @@ declare(strict_types=1);
  */
 
 return [
+    Hyperf\Contract\StdoutLoggerInterface::class => App\Utils\StdoutLoggerFactory::class,
 ];

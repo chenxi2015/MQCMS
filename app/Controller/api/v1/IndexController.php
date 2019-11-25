@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license  https://github.com/hyperf-cloud/hyperf/blob/master/LICENSE
  */
 
-namespace App\Controller;
+namespace App\Controller\api\v1;
 use App\Model\Tag;
 use Hyperf\DbConnection\Db;
 use Hyperf\HttpServer\Annotation\Controller;
@@ -21,7 +21,7 @@ use Hyperf\HttpServer\Annotation\RequestMapping;
  * Class IndexController
  * @package App\Controller
  */
-class IndexController extends AbstractController
+class IndexController extends BaseController
 {
     /**
      * @RequestMapping(path="index", methods="get, post")
@@ -32,13 +32,12 @@ class IndexController extends AbstractController
         $user = $this->request->input('user', 'Hyperf');
         $method = $this->request->getMethod();
         $tagNameList = [];
-        $tagList = Tag::all();
+        // $tagList = Tag::all();
         // $tagList = Tag::query()->get();
-        $tagList->reject(function ($user) use ($tagNameList) {
-            array_push($tagNameList, $user->tag_name);
-            print_r($tagNameList);
-            return $tagNameList;
-        });
+        // $tagList->reject(function ($user) use ($tagNameList) {
+        //     array_push($tagNameList, $user->tag_name);
+        //     return $tagNameList;
+        // });
 
         return [
             'method' => $method,

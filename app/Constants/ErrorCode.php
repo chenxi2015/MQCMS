@@ -24,4 +24,9 @@ class ErrorCode extends AbstractConstants
      * @Message("Server Error！")
      */
     const SERVER_ERROR = 500;
+
+    /**
+     * @Message("Http Not Found！")
+     */
+    const HTTP_NOT_FOUND = 400;
 }

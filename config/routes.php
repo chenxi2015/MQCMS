@@ -11,5 +11,28 @@ declare(strict_types=1);
  */
 
 use Hyperf\HttpServer\Router\Router;
+use App\Middleware\Auth\AuthMiddleware;
 
-Router::addRoute(['GET', 'POST', 'HEAD'], '/', 'App\Controller\IndexController@index');
+Router::addRoute(['GET', 'POST', 'HEAD'], '/', 'App\Controller\api\v1\IndexController@index');
+
+// api接口
+Router::addGroup('/api/', function () {
+    Router::addGroup('v1/', function () {
+
+        Router::get('index', 'App\Controller\api\v1\IndexController@index');
+
+        // 标签
+        Router::addGroup('tag/', function () {
+            Router::get('index', 'App\Controller\api\v1\TagController@index');
+            Router::post('store', 'App\Controller\api\v1\TagController@store');
+        });
+
+        // 用户
+        Router::addGroup('user/', function () {
+            Router::get('index', 'App\Controller\api\v1\UserController@index');
+            Router::post('store', 'App\Controller\api\v1\UserController@store');
+        }, ['middleware' => [AuthMiddleware::class]]);
+
+    });
+});
+
