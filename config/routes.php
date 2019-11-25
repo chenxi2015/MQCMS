@@ -41,6 +41,13 @@ Router::addGroup('/api/', function () {
             Router::post('store', 'App\Controller\api\v1\UserController@store');
         }, ['middleware' => [AuthMiddleware::class]]);
 
+        // auth
+        Router::addGroup('auth/', function () {
+            Router::post('login', 'App\Controller\api\v1\AuthController@login');
+            Router::post('register', 'App\Controller\api\v1\AuthController@register');
+        });
+        // 帖子
+
     });
 });
 
