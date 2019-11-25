@@ -36,7 +36,7 @@ class BusinessExceptionHandler extends ExceptionHandler
                 'message' => $throwable->getMessage()
             ], JSON_UNESCAPED_UNICODE);
 
-            $this->logger->error(sprintf('%s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
+            // $this->logger->error(sprintf('%s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
             // $this->logger->error($throwable->getTraceAsString());
 
             // 阻止异常冒泡

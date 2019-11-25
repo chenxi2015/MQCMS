@@ -21,6 +21,7 @@ namespace App\Model;
  */
 class User extends Model
 {
+    public $timestamps = false;
     /**
      * The table associated with the model.
      *
@@ -38,5 +39,5 @@ class User extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'status' => 'integer', 'created_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'status' => 'integer'];
 }

@@ -39,7 +39,29 @@ class AuthController extends BaseController
         if ($userInfo) {
             throw new BusinessException(ErrorCode::BAD_REQUEST, '用户名已存在');
         }
+        $salt = UserService::generateSalt();
 
+        $data = [
+            'user_no' => 'q212312',
+            'user_name' => $params['user_name'],
+            'real_name' => '12312',
+            'phone' => '12312',
+            'avatar' => '1231',
+            'password' => UserService::generatePasswordHash($params['password'], $salt),
+            'salt' => $salt,
+            'status' => 1,
+            'register_time' => time(),
+            'register_ip' => $this->request->getHeader('Host')[0],
+            'login_time' => time(),
+            'login_ip' => $this->request->getHeader('Host')[0],
+            'created_at' => time(),
+        ];
+        $lastInsertId = UserService::insertGetId($data);
+        if (!$lastInsertId) {
+            throw new BusinessException(ErrorCode::BAD_REQUEST, '注册失败');
+        }
+        $token = $this->createAuthToken(['id' => $lastInsertId]);
+        return $this->response->json(['code' => ErrorCode::OK, 'message' => '注册成功', 'data' => ['token' => $token, 'expire_time' => JWT::$leeway]]);
     }
 
     /**
