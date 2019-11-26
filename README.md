@@ -6,7 +6,7 @@ MQCMS中的MQ取麻雀拼音首字母。寓意麻雀虽小五脏俱全。
 在docker环境下开发，window安装docker desktop for window
 
 下载hyperf框架docker镜像
-```javascript
+```php
 docker pull hyperf/hyperf
 ```
 
@@ -17,22 +17,22 @@ docker run -it -v /d/web/mqcms:/mqcms -p 9501:9501 --entrypoint /bin/sh hyperf/h
 ```
 
 下载mqcms系统
-```shell script
+```php
 git clone https://github.com/chenxi2015/MQCMS mqcms
 ```
 
 将 Composer 镜像设置为阿里云镜像，加速国内下载速度
-```shell script
+```php
 php mqcms/bin/composer.phar config -g repo.packagist composer https://mirrors.aliyun.com/composer
 
 ```
 进入项目启动项目
-```shell script
+```php
 cd mqcms
 php bin/hyperf.php start
 ```
 
 浏览器访问项目
-```shell script
+```php
 http://127.0.0.1:9501
 ```
