@@ -65,7 +65,7 @@ class AuthController extends BaseController
     }
 
     /**
-     * 登录
+     * 账号密码登录
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function login()
@@ -93,4 +93,5 @@ class AuthController extends BaseController
         $token = $this->createAuthToken(['id' => $userInfo->id]);
         return $this->response->json(['token' => $token, 'expire_time' => JWT::$leeway]);
     }
+
 }

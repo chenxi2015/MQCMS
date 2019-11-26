@@ -44,7 +44,7 @@ CREATE TABLE `mq_post`  (
   `address_lat` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '地址纬度',
   `address_lng` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '地址经度',
   `attach_urls` json NULL COMMENT '附件列表',
-  `is_publish` tinyint(1) NOT NULL DEFAULT 2 COMMENT '是否发布 1：发布 0：未发布（草稿）',
+  `is_publish` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否发布 1：发布 0：未发布（草稿）',
   `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '状态 1：正常 0：删除',
   `is_recommend` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否推荐 1：推荐 0：正常',
   `created_at` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,

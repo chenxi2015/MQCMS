@@ -16,12 +16,15 @@ class Common
     {
         $multiple = (($limit / 3) - 1) / 2; // limit的数量 9 15 21 27...
         $suffix = $page % 2 === 0 ? 3 : 5;
-        foreach ($data as $key => $value) {
-            if (in_array($suffix, [3, 5])) {
-                $data[$limit-$suffix * $multiple]['img_status'] = 1; // 大图
-            } else {
+        $currentKey = floor($limit-$suffix * $multiple);
+        if (!empty($data)) {
+            foreach ($data as $key => $value) {
                 $data[$key]['img_status'] = 0; // 小图
+                if (count($data) >= $limit) {
+                    $data[$currentKey-1]['img_status'] = 1; // 大图
+                }
             }
         }
+        return array_values($data);
     }
 }

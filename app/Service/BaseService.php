@@ -25,7 +25,7 @@ class BaseService
         if (!empty($select)) {
             $tagList = $tagList->select($select);
         }
-        return $tagList->paginate($limit);
+        return $tagList->paginate($limit)->toArray();
     }
 
     /**

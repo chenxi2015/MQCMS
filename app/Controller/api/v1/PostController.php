@@ -24,7 +24,7 @@ class PostController extends BaseController
         if (!($isValid === true)) {
             throw new BusinessException(ErrorCode::BAD_REQUEST, '参数错误');
         }
-        $limit = isset($params['limit']) && $params['limit'] <= 20 ? (int)$params['limit'] : 10;
+        $limit = isset($params['limit']) && $params['limit'] <= 20 ? (int)$params['limit'] : 9;
         $type = isset($params['type']) ? $params['type'] : 'default'; // 类型： recommend: 推荐 default: 默认
         $condition = [
             ['status', '=', 1],
@@ -33,12 +33,13 @@ class PostController extends BaseController
         if ($type === 'recommend') {
             array_push($condition, ['is_recommend', '=', 1]);
         }
-
         $list = PostService::getPostListByPage($limit, $condition);
+
         foreach ($list['data'] as $key => &$value) {
-            $value['attach_list'] = json_decode($value['attach_urls'], true);
+            $value['attach_urls'] = json_decode($value['attach_urls'], true);
+            $value['relation_tags_list'] = explode(',', $value['relation_tags']);
         }
-        $list['data'] = Common::calculateList($params['page'], $limit, $list);
+        $list['data'] = Common::calculateList((int)$params['page'], $limit, $list['data']);
         return $this->response->json($list);
     }
 }
