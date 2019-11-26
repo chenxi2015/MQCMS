@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Model\Tag;
-use Hyperf\DbConnection\Db;
 
 class TagService extends BaseService
 {
@@ -14,12 +13,8 @@ class TagService extends BaseService
      * @param array $condition
      * @return \Hyperf\Contract\PaginatorInterface
      */
-    public static function getTagListByPage(int $limit=10, array $condition=[])
+    public static function getTagListByPage(int $limit=10, array $condition=[], array $select=['*'])
     {
-        $tagList = Db::table((new Tag())->getTable());
-        if (!empty($condition)) {
-            $tagList = $tagList->where($condition);
-        }
-        return $tagList->paginate($limit);
+        return self::getListByPage((new Tag())->getTable(), $limit, $condition, $select);
     }
 }

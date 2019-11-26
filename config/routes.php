@@ -46,8 +46,14 @@ Router::addGroup('/api/', function () {
             Router::post('login', 'App\Controller\api\v1\AuthController@login');
             Router::post('register', 'App\Controller\api\v1\AuthController@register');
         });
-        // 帖子
 
+        // 帖子
+        Router::addGroup('post/', function () {
+           Router::get('index', 'App\Controller\api\v1\PostController@index');
+           Router::post('store', 'App\Controller\api\v1\PostController@store');
+           Router::delete('delete', 'App\Controller\api\v1\PostController@delete');
+           Router::post('update', 'App\Controller\api\v1\PostController@update');
+        });
     });
 });
 
