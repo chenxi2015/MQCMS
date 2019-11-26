@@ -31,3 +31,8 @@ php mqcms/bin/composer.phar config -g repo.packagist composer https://mirrors.al
 cd mqcms
 php bin/hyperf.php start
 ```
+
+浏览器访问项目
+```shell script
+http://127.0.0.1:9501
+```
