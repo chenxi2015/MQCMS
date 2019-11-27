@@ -3,8 +3,8 @@ MQCMS是一款现代化，快速，高效，灵活，前后端分离，扩展性
 MQCMS中的MQ取麻雀拼音首字母。寓意麻雀虽小五脏俱全。
 
 ### 本地开发
-在docker环境下开发，window10环境安装docker desktop for window
-window以下环境安装docker toolbox
+在docker环境下开发，window10环境安装docker desktop for window,
+window10以下环境安装docker toolbox
 
 下载hyperf框架docker镜像
 ```php
