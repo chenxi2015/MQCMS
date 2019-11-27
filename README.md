@@ -26,9 +26,10 @@ git clone https://github.com/chenxi2015/MQCMS mqcms
 php mqcms/bin/composer.phar config -g repo.packagist composer https://mirrors.aliyun.com/composer
 
 ```
-进入项目启动项目
+进入项目安装依赖启动项目
 ```php
 cd mqcms
+php bin/composer.phar install
 php bin/hyperf.php start
 ```
 
