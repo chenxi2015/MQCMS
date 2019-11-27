@@ -31,6 +31,7 @@ php mqcms/bin/composer.phar config -g repo.packagist composer https://mirrors.al
 ```php
 cd mqcms
 php bin/composer.phar install
+cp .env.example .env
 php bin/hyperf.php start
 ```
 
