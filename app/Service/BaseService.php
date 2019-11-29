@@ -4,11 +4,45 @@ declare(strict_types=1);
 namespace App\Service;
 
 
+use App\Exception\BusinessException;
+use App\Utils\Common;
 use Hyperf\DbConnection\Db;
+use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Paginator\Paginator;
 
 class BaseService
 {
+    protected $table = '';
+
+    public $condition = [];
+
+    public $select = ['*'];
+
+    public $orderBy = 'id desc';
+
+    public $groupBy = '';
+
+    /**
+     * @param RequestInterface $request
+     * @return \Hyperf\Contract\PaginatorInterface
+     */
+    public function index(RequestInterface $request)
+    {
+        try {
+            $page = $request->input('page', 1);
+            $limit = $request->input('limit', 10);
+            $page = $page < 1 ? 1 : $page;
+            $limit = $limit > 100 ? 100 : $limit;
+
+            Common::writeLog($request->getMethod(), '日志测试', 'error', 'api');
+
+            return self::getListByPage($this->table, (int) $page, (int) $limit, $this->condition, $this->select, $this->orderBy, $this->groupBy);
+
+        } catch (\Exception $e) {
+            throw new BusinessException($e->getCode(), $e->getMessage());
+        }
+    }
+
     /**
      * 根据查询结果获取分页列表
      * @param string $table
@@ -16,16 +50,22 @@ class BaseService
      * @param array $condition
      * @return \Hyperf\Contract\PaginatorInterface
      */
-    public static function getListByPage(string $table, int $limit, array $condition, array $select)
+    public static function getListByPage(string $table, int $page, int $limit, array $condition, array $select, string $order_by, string $group_by)
     {
-        $tagList = Db::table($table);
+        $query = Db::table($table);
         if (!empty($condition)) {
-            $tagList = $tagList->where($condition);
+            $query = $query->where($condition);
         }
         if (!empty($select)) {
-            $tagList = $tagList->select($select);
+            $query = $query->select($select);
         }
-        return $tagList->paginate($limit)->toArray();
+        if ($order_by) {
+            $query = $query->orderByRaw($order_by);
+        }
+        if (!empty($group_by)) {
+            $query = $query->groupBy(implode(',', $group_by));
+        }
+        return $query->paginate($limit, $select, 'page', $page)->toArray();
     }
 
     /**

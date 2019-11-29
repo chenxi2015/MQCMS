@@ -3,29 +3,25 @@ declare(strict_types=1);
 
 namespace App\Controller\api\v1;
 
-
-use App\Constants\ErrorCode;
-use App\Exception\BusinessException;
 use App\Service\PostService;
 use App\Utils\Common;
+use Hyperf\HttpServer\Contract\RequestInterface;
 
 class PostController extends BaseController
 {
     /**
+     * @var string
+     */
+    public $service = PostService::class;
+
+    /**
      * 获取帖子列表分页
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function index()
+    public function index(RequestInterface $request)
     {
-        $params = $this->request->all();
-        $isValid = \GUMP::is_valid($params, [
-            'page' => 'required',
-        ]);
-        if (!($isValid === true)) {
-            throw new BusinessException(ErrorCode::BAD_REQUEST, '参数错误');
-        }
-        $limit = isset($params['limit']) && $params['limit'] <= 20 ? (int)$params['limit'] : 9;
-        $type = isset($params['type']) ? $params['type'] : 'default'; // 类型： recommend: 推荐 default: 默认
+        $type = $request->input('type', 'default'); // 类型： recommend: 推荐 default: 默认
+
         $condition = [
             ['status', '=', 1],
             ['is_publish', '=', 1],
@@ -33,13 +29,14 @@ class PostController extends BaseController
         if ($type === 'recommend') {
             array_push($condition, ['is_recommend', '=', 1]);
         }
-        $list = PostService::getPostListByPage($limit, $condition);
+
+        $list = $this->block->index($request);
 
         foreach ($list['data'] as $key => &$value) {
-            $value['attach_urls'] = json_decode($value['attach_urls'], true);
+            $value['attach_urls'] = $value['attach_urls'] ? json_decode($value['attach_urls'], true) : [];
             $value['relation_tags_list'] = explode(',', $value['relation_tags']);
         }
-        $list['data'] = Common::calculateList((int)$params['page'], $limit, $list['data']);
+        $list['data'] = Common::calculateList($request, $list['data']);
         return $this->response->json($list);
     }
 }

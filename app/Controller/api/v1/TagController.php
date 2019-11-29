@@ -3,35 +3,34 @@ declare(strict_types=1);
 
 namespace App\Controller\api\v1;
 
-
-use App\Constants\ErrorCode;
-use App\Exception\BusinessException;
 use App\Service\TagService;
+use Hyperf\HttpServer\Contract\RequestInterface;
 
 class TagController extends BaseController
 {
     /**
+     * @var TagService $service
+     */
+    public $service = TagService::class;
+
+    /**
      * 获取分页列表
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function index()
+    public function index(RequestInterface $request)
     {
-        $params = $this->request->all();
-        $isValid = \GUMP::is_valid($params, [
-            'page' => 'required',
-        ]);
-        if (!($isValid === true)) {
-            throw new BusinessException(ErrorCode::BAD_REQUEST, '参数错误');
-        }
-        $limit = isset($params['limit']) && $params['limit'] <= 20 ? (int)$params['limit'] : 10;
-        $type = isset($params['type']) ? $params['type'] : 'default'; // 类型： hot: 获取热门的 default: 默认
+        $type = $request->input('type', 'default');
+
         $condition = [
             ['status', '=', 1]
         ];
         if ($type === 'hot') {
-            array_push($condition, ['is_hot', '=', 2]);
+            array_push($condition, ['is_hot', '=', 1]);
         }
-        return $this->response->json(TagService::getTagListByPage($limit, $condition));
+        $this->block->select = ['tag_name', 'is_hot', 'status', 'used_count'];
+        $this->block->condition = $condition;
+
+        return $this->response->json($this->block->index($request));
     }
 
 
