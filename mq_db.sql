@@ -58,7 +58,7 @@ DROP TABLE IF EXISTS `mq_tag`;
 CREATE TABLE `mq_tag`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `tag_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `is_hot` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否热门 1：正常 2：热门',
+  `is_hot` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否热门 0：正常 1：热门',
   `status` tinyint(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态 1：正常 0：禁用（删除）',
   `first_create_user_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '第一个创建的人的用户id',
   `used_count` int(11) UNSIGNED NOT NULL DEFAULT 1 COMMENT '被使用的次数',
@@ -79,7 +79,7 @@ CREATE TABLE `mq_user`  (
   `avatar` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '头像',
   `password` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '密码',
   `salt` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '密码加盐',
-  `status` tinyint(1) NULL DEFAULT 1 COMMENT '状态 1：正常',
+  `status` tinyint(1) NULL DEFAULT 1 COMMENT '状态 1：正常 2：禁用',
   `register_time` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '注册时间',
   `register_ip` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '注册ip',
   `login_time` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '登录时间',

@@ -3,39 +3,34 @@ declare(strict_types=1);
 
 namespace App\Controller\api\v1;
 
-
 use App\Controller\AbstractController;
-use App\Middleware\Auth\AuthMiddleware;
-use App\Utils\JWT;
+use App\Service\BaseService;
 
 class BaseController extends AbstractController
 {
     /**
-     * 获取token
-     * @return string
+     * @var string
      */
-    public function getAuthToken()
+    public $service = BaseService::class;
+
+    /**
+     * @var mixed
+     */
+    public $block;
+
+    /**
+     * BaseController constructor.
+     */
+    public function __construct()
     {
-        return AuthMiddleware::$authToken;
+        $this->block = $this->block();
     }
 
     /**
-     * 验证token并获取token值
-     * @return array|bool|object|string
+     * @return mixed
      */
-    public function validateAuthToken()
+    public function block()
     {
-        return JWT::getTokenInfo($this->getAuthToken());
+        return new $this->service();
     }
-
-    /**
-     * 创建token
-     * @param $info
-     * @return string
-     */
-    public function createAuthToken($info)
-    {
-        return JWT::createToken($info);
-    }
-
 }
