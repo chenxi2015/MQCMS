@@ -34,11 +34,45 @@ class BaseService
             $page = $page < 1 ? 1 : $page;
             $limit = $limit > 100 ? 100 : $limit;
 
-            Common::writeLog($request->getMethod(), '日志测试', 'error', 'api');
-
             return self::getListByPage($this->table, (int) $page, (int) $limit, $this->condition, $this->select, $this->orderBy, $this->groupBy);
 
         } catch (\Exception $e) {
+            throw new BusinessException($e->getCode(), $e->getMessage());
+        }
+    }
+
+    public function show(RequestInterface $request)
+    {
+        try {
+
+        }  catch (\Exception $e) {
+            throw new BusinessException($e->getCode(), $e->getMessage());
+        }
+    }
+
+    public function update(RequestInterface $request)
+    {
+        try {
+
+        }  catch (\Exception $e) {
+            throw new BusinessException($e->getCode(), $e->getMessage());
+        }
+    }
+
+    public function delete(RequestInterface $request)
+    {
+        try {
+
+        }  catch (\Exception $e) {
+            throw new BusinessException($e->getCode(), $e->getMessage());
+        }
+    }
+
+    public function store(RequestInterface $request)
+    {
+        try {
+
+        }  catch (\Exception $e) {
             throw new BusinessException($e->getCode(), $e->getMessage());
         }
     }
