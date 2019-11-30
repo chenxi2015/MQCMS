@@ -48,7 +48,7 @@ class TagController extends BaseController
     {
         $type = $request->input('type', 'default');
         if ($type === 'hot') {
-            array_push($this->condition, ['is_hot', '=', 1]);
+            $this->condition[] = ['is_hot', '=', 1];
         } else {
             $this->condition = [['status', '=', 1]];
         }
