@@ -21,7 +21,7 @@ namespace App\Model;
  */
 class User extends Model
 {
-    public $timestamps = false;
+    public $timestamps = true;
     /**
      * The table associated with the model.
      *
@@ -33,7 +33,7 @@ class User extends Model
      *
      * @var array
      */
-    protected $fillable = ['id', ' user_no', 'user_name', 'real_name', 'phone', 'avatar', 'password', 'salt', 'status', 'register_time', 'register_ip', 'login_time', 'login_ip', 'created_at'];
+    protected $fillable = ['id', 'user_no', 'user_name', 'real_name', 'phone', 'avatar', 'password', 'salt', 'status', 'register_time', 'register_ip', 'login_time', 'login_ip', 'created_at'];
     /**
      * The attributes that should be cast to native types.
      *

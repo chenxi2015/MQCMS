@@ -8,6 +8,8 @@ use App\Model\User;
 
 class UserService extends BaseService
 {
+    protected $table = 'user';
+
     /**
      * 根据用户名获取用户信息
      * @param $username
@@ -49,15 +51,5 @@ class UserService extends BaseService
         $salt .= str_replace('+', '.', substr(base64_encode($rand), 0, 22));
 
         return $salt;
-    }
-
-    /**
-     * 插入新数据
-     * @param $data
-     * @return int
-     */
-    public static function insertGetId($data)
-    {
-        return User::query()->insertGetId($data);
     }
 }

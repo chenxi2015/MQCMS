@@ -11,6 +11,7 @@ use App\Exception\BusinessException;
 use App\Service\UserService;
 use App\Utils\JWT;
 use Hyperf\HttpServer\Annotation\Controller;
+use Hyperf\HttpServer\Contract\RequestInterface;
 
 /**
  * @Controller
@@ -19,44 +20,50 @@ use Hyperf\HttpServer\Annotation\Controller;
  */
 class AuthController extends BaseController
 {
+    public $service = UserService::class;
+
     /**
      * 注册
+     * @param RequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Exception
      */
-    public function register()
+    public function register(RequestInterface $request)
     {
-        $params = $this->request->all();
-        $isValid = \GUMP::is_valid($params, [
+        $this->validateParam($request, [
             'user_name' => 'required',
             'password' => 'required|max_len,100|min_len,6'
-        ]);
+        ], 400, '参数错误');
 
-        if (!($isValid === true)) {
-            throw new BusinessException(ErrorCode::BAD_REQUEST, '参数错误');
-        }
+        $userName = $request->input('user_name');
+        $password = $request->input('password');
+        $ip = $request->getHeader('Host')[0];
 
-        $userInfo = UserService::getInfoByUsername($params['user_name']);
-
+        $userInfo = UserService::getInfoByUsername($userName);
         if ($userInfo) {
             throw new BusinessException(ErrorCode::BAD_REQUEST, '用户名已存在');
         }
         $salt = UserService::generateSalt();
 
         $data = [
-            'user_no' => 'q212312',
-            'user_name' => $params['user_name'],
-            'real_name' => '12312',
-            'phone' => '12312',
-            'avatar' => '1231',
-            'password' => UserService::generatePasswordHash($params['password'], $salt),
+            'user_no' => $userName . generateRandomString(6),
+            'user_name' => $userName,
+            'real_name' => '',
+            'phone' => '',
+            'avatar' => '',
+            'password' => UserService::generatePasswordHash($password, $salt),
             'salt' => $salt,
             'status' => 1,
             'register_time' => time(),
-            'register_ip' => $this->request->getHeader('Host')[0],
+            'register_ip' => $ip,
             'login_time' => time(),
-            'login_ip' => $this->request->getHeader('Host')[0],
+            'login_ip' => $ip,
             'created_at' => time(),
+            'updated_at' => time(),
         ];
-        $lastInsertId = UserService::insertGetId($data);
+        $this->data = $data;
+        $lastInsertId = parent::store($request);
+
         if (!$lastInsertId) {
             throw new BusinessException(ErrorCode::BAD_REQUEST, '注册失败');
         }

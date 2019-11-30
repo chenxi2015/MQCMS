@@ -58,7 +58,7 @@ class BaseService
             return self::getListByPage($this->table, (int) $page, (int) $limit, $this->condition, $this->select, $this->orderBy, $this->groupBy);
 
         } catch (\Exception $e) {
-            throw new BusinessException($e->getCode(), $e->getMessage());
+            throw new BusinessException((int)$e->getCode(), $e->getMessage());
         }
     }
 
@@ -73,7 +73,7 @@ class BaseService
             return $data ?? [];
 
         } catch (\Exception $e) {
-            throw new BusinessException($e->getCode(), $e->getMessage());
+            throw new BusinessException((int)$e->getCode(), $e->getMessage());
         }
     }
 
@@ -88,7 +88,7 @@ class BaseService
             return Db::table($this->table)->where($this->condition)->update($this->data);
 
         } catch (\Exception $e) {
-            throw new BusinessException($e->getCode(), $e->getMessage());
+            throw new BusinessException((int)$e->getCode(), $e->getMessage());
         }
     }
 
@@ -102,7 +102,7 @@ class BaseService
             return Db::table($this->table)->where($this->condition)->delete();
 
         } catch (\Exception $e) {
-            throw new BusinessException($e->getCode(), $e->getMessage());
+            throw new BusinessException((int)$e->getCode(), $e->getMessage());
         }
     }
 
@@ -117,7 +117,7 @@ class BaseService
             return Db::table($this->table)->insertGetId($this->data);
 
         } catch (\Exception $e) {
-            throw new BusinessException($e->getCode(), $e->getMessage());
+            throw new BusinessException((int)$e->getCode(), $e->getMessage());
         }
     }
 
