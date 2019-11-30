@@ -22,21 +22,22 @@ class PostController extends BaseController
     {
         $type = $request->input('type', 'default'); // 类型： recommend: 推荐 default: 默认
 
-        $condition = [
+        $this->condition = [
             ['status', '=', 1],
             ['is_publish', '=', 1],
         ];
         if ($type === 'recommend') {
-            array_push($condition, ['is_recommend', '=', 1]);
+            $this->condition[] = ['is_recommend', '=', 1];
         }
 
-        $list = $this->block->index($request);
+        $list = parent::index($request);
 
         foreach ($list['data'] as $key => &$value) {
             $value['attach_urls'] = $value['attach_urls'] ? json_decode($value['attach_urls'], true) : [];
             $value['relation_tags_list'] = explode(',', $value['relation_tags']);
         }
+
         $list['data'] = Common::calculateList($request, $list['data']);
-        return $this->response->json($list);
+        return $list;
     }
 }
