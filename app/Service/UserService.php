@@ -15,8 +15,8 @@ class UserService extends BaseService
      * @param $username
      * @return \Hyperf\Database\Model\Builder|\Hyperf\Database\Model\Model|object|null
      */
-    public static function getInfoByUsername($username) {
-        return User::query()->where('user_name', $username)->first();
+    public static function getInfoByUsername($username, $select=['*']) {
+        return User::query()->where('user_name', $username)->select($select)->first();
     }
 
     /**

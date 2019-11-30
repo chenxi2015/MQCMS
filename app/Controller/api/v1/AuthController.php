@@ -73,27 +73,25 @@ class AuthController extends BaseController
 
     /**
      * 账号密码登录
+     * @param RequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function login()
+    public function login(RequestInterface $request)
     {
-        $params = $this->request->all();
-        $isValid = \GUMP::is_valid($params, [
+        $this->validateParam($request, [
             'user_name' => 'required',
             'password' => 'required|max_len,100|min_len,6'
-        ]);
+        ], 400, '参数错误');
 
-        if (!($isValid === true)) {
-            throw new BusinessException(ErrorCode::BAD_REQUEST, '参数错误');
-        }
-
-        $userInfo = UserService::getInfoByUsername($params['user_name']);
+        $userName = $request->input('user_name');
+        $password = $request->input('password');
+        $userInfo = UserService::getInfoByUsername($userName, ['id', 'salt', 'password']);
 
         if (!$userInfo) {
             throw new BusinessException(ErrorCode::BAD_REQUEST, '用户不存在');
         }
 
-        if ($userInfo->password != UserService::generatePasswordHash($params['password'], $userInfo->salt)) {
+        if ($userInfo->password != UserService::generatePasswordHash($password, $userInfo->salt)) {
             throw new BusinessException(ErrorCode::BAD_REQUEST, '密码不正确');
         }
 
