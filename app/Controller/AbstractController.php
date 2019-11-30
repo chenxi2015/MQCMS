@@ -100,11 +100,10 @@ abstract class AbstractController
 
     /**
      * allows数组中允许的不需要token验证合法
-     * @param RequestInterface $request
      * @param $className
      * @return bool
      */
-    public function validateIsAllow(RequestInterface $request, $className)
+    public function validateIsAllow($className)
     {
         if (empty($this->allows)) {
             $this->validateAuthToken();

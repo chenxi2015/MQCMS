@@ -81,7 +81,7 @@ class BaseController extends AbstractController
      */
     public function beforeAction(RequestInterface $request)
     {
-        $this->validateIsAllow($request, $this->className);
+        $this->validateIsAllow($this->className);
         $this->block->condition = $this->condition;
         $this->block->select    = $this->select;
         $this->block->orderBy   = $this->orderBy;
