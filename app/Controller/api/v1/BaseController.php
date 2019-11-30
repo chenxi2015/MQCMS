@@ -10,6 +10,22 @@ use Hyperf\HttpServer\Contract\RequestInterface;
 class BaseController extends AbstractController
 {
     /**
+     * @var string
+     */
+    public $className = self::class;
+
+    /**
+     * @var string
+     */
+    public $service = BaseService::class;
+
+    /**
+     * 验证token是否合法 allows里面不需要验证
+     * @var array
+     */
+    protected $allows = [];
+
+    /**
      * 查询条件
      * @var array
      */
@@ -40,11 +56,6 @@ class BaseController extends AbstractController
     public $data = [];
 
     /**
-     * @var string
-     */
-    public $service = BaseService::class;
-
-    /**
      * @var mixed
      */
     public $block;
@@ -68,8 +79,9 @@ class BaseController extends AbstractController
     /**
      * @param RequestInterface $request
      */
-    public function beforeBuildQuery(RequestInterface $request)
+    public function beforeAction(RequestInterface $request)
     {
+        $this->validateIsAllow($request, $this->className);
         $this->block->condition = $this->condition;
         $this->block->select    = $this->select;
         $this->block->orderBy   = $this->orderBy;
@@ -84,7 +96,7 @@ class BaseController extends AbstractController
      */
     public function index(RequestInterface $request)
     {
-        $this->beforeBuildQuery($request);
+        $this->beforeAction($request);
         return $this->block->index($request);
     }
 
@@ -95,7 +107,7 @@ class BaseController extends AbstractController
      */
     public function show(RequestInterface $request)
     {
-        $this->beforeBuildQuery($request);
+        $this->beforeAction($request);
         return $this->block->show($request);
     }
 
@@ -106,7 +118,7 @@ class BaseController extends AbstractController
      */
     public function update(RequestInterface $request)
     {
-        $this->beforeBuildQuery($request);
+        $this->beforeAction($request);
         return $this->block->update($request);
     }
 
@@ -117,7 +129,7 @@ class BaseController extends AbstractController
      */
     public function delete(RequestInterface $request)
     {
-        $this->beforeBuildQuery($request);
+        $this->beforeAction($request);
         return ['result' => $this->block->delete($request)];
     }
 
@@ -128,7 +140,7 @@ class BaseController extends AbstractController
      */
     public function store(RequestInterface $request)
     {
-        $this->beforeBuildQuery($request);
+        $this->beforeAction($request);
         return ['id' => $this->block->store($request)];
     }
 }

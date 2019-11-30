@@ -9,36 +9,15 @@ use Hyperf\HttpServer\Contract\RequestInterface;
 class TagController extends BaseController
 {
     /**
-     * 查询条件
-     * @var array
-     */
-    public $condition = [
-        ['status', '=', 1]
-    ];
-
-    /**
-     * 查询数据
-     * @var array
-     */
-    public $select = ['tag_name', 'is_hot', 'status', 'used_count'];
-
-    /**
-     * 排序
-     * @var string
-     */
-    public $orderBy = 'id desc';
-
-    /**
-     * 分组
-     * @var string
-     */
-    public $groupBy = '';
-
-    /**
      * @var TagService $service
      */
     public $service = TagService::class;
 
+    /**
+     * 不需要验证token有效性
+     * @var array
+     */
+    protected $allows = ['index', 'show'];
 
     /**
      * @param RequestInterface $request
@@ -81,9 +60,6 @@ class TagController extends BaseController
             'tag_name' => 'required',
         ], 400, '参数错误');
 
-        // 验证token
-        $this->validateAuthToken();
-
         $data = [
             'tag_name' => $request->input('tag_name'),
             'is_hot' => 0,
@@ -103,9 +79,6 @@ class TagController extends BaseController
         $this->validateParam($request, [
             'id' => 'required',
         ], 400, '参数错误');
-
-        // 验证token
-        $this->validateAuthToken();
 
         $this->condition = ['id' => $request->input('id')];
         return parent::delete($request);

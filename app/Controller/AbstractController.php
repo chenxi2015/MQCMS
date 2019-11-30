@@ -41,6 +41,11 @@ abstract class AbstractController
     protected $response;
 
     /**
+     * @var array
+     */
+    protected $allows = [];
+
+    /**
      * 获取token
      * @return string
      */
@@ -50,7 +55,7 @@ abstract class AbstractController
     }
 
     /**
-     * 验证token并获取token值
+     * 验证token有效性并获取token值
      * @return array|bool|object|string
      */
     public function validateAuthToken()
@@ -92,4 +97,37 @@ abstract class AbstractController
             throw new BusinessException($code, $message);
         }
     }
+
+    /**
+     * allows数组中允许的不需要token验证合法
+     * @param RequestInterface $request
+     * @param $className
+     * @return bool
+     */
+    public function validateIsAllow(RequestInterface $request, $className)
+    {
+        if (empty($this->allows)) {
+            $this->validateAuthToken();
+        } else {
+            $method = $this->getCurrentActionName($className);
+            if (!in_array($method, $this->allows)) {
+                $this->validateAuthToken();
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 获取当前访问的控制器的方法名称
+     * @param $className
+     * @return array|mixed|string
+     */
+    public function getCurrentActionName($className) {
+        $pathList = explode('/', $this->request->decodedPath());
+        $methods = get_class_methods(new $className());
+        $method = $methods && !empty($pathList) ? array_values(array_intersect($pathList, $methods)) : [];
+        $method = !empty($method) && count($method) === 1 ? $method[0] : '';
+        return $method;
+    }
+
 }
