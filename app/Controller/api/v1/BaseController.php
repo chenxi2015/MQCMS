@@ -62,7 +62,7 @@ class BaseController extends AbstractController
     /**
      * @param RequestInterface $request
      */
-    public function beforeDbQuery(RequestInterface $request)
+    public function beforeBuildQuery(RequestInterface $request)
     {
         $this->block->condition = $this->condition;
         $this->block->select = $this->select;
@@ -77,7 +77,7 @@ class BaseController extends AbstractController
      */
     public function index(RequestInterface $request)
     {
-        $this->beforeDbQuery($request);
+        $this->beforeBuildQuery($request);
         return $this->block->index($request);
     }
 
@@ -88,7 +88,7 @@ class BaseController extends AbstractController
      */
     public function show(RequestInterface $request)
     {
-        $this->beforeDbQuery($request);
+        $this->beforeBuildQuery($request);
         return $this->block->show($request);
     }
 
@@ -99,7 +99,7 @@ class BaseController extends AbstractController
      */
     public function update(RequestInterface $request)
     {
-        $this->beforeDbQuery($request);
+        $this->beforeBuildQuery($request);
         return $this->block->update($request);
     }
 
@@ -110,7 +110,7 @@ class BaseController extends AbstractController
      */
     public function delete(RequestInterface $request)
     {
-        $this->beforeDbQuery($request);
+        $this->beforeBuildQuery($request);
         return $this->block->delete($request);
     }
 
@@ -121,7 +121,7 @@ class BaseController extends AbstractController
      */
     public function store(RequestInterface $request)
     {
-        $this->beforeDbQuery($request);
+        $this->beforeBuildQuery($request);
         return $this->block->store($request);
     }
 }
