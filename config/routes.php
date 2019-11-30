@@ -32,6 +32,7 @@ Router::addGroup('/api/', function () {
             Router::get('index', 'App\Controller\api\v1\TagController@index');
             Router::get('show', 'App\Controller\api\v1\TagController@show');
             Router::post('store', 'App\Controller\api\v1\TagController@store', ['middleware' => [AuthMiddleware::class]]);
+            Router::delete('delete', 'App\Controller\api\v1\TagController@delete', ['middleware' => [AuthMiddleware::class]]);
         });
 
         // 用户

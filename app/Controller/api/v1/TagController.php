@@ -93,4 +93,21 @@ class TagController extends BaseController
         $this->data = $data;
         return parent::store($request);
     }
+
+    /**
+     * @param RequestInterface $request
+     * @return mixed
+     */
+    public function delete(RequestInterface $request)
+    {
+        $this->validateParam($request, [
+            'id' => 'required',
+        ], 400, '参数错误');
+
+        // 验证token
+        $this->validateAuthToken();
+
+        $this->condition = ['id' => $request->input('id')];
+        return parent::delete($request);
+    }
 }

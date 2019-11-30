@@ -118,7 +118,7 @@ class BaseController extends AbstractController
     public function delete(RequestInterface $request)
     {
         $this->beforeBuildQuery($request);
-        return $this->block->delete($request);
+        return ['result' => $this->block->delete($request)];
     }
 
     /**
