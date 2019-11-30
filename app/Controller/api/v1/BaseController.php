@@ -23,7 +23,7 @@ class BaseController extends AbstractController
      * 验证token是否合法 allows里面不需要验证
      * @var array
      */
-    protected $allows = [];
+    protected $allows = ['index', 'show'];
 
     /**
      * 查询条件

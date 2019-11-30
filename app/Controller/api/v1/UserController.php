@@ -6,9 +6,13 @@ declare(strict_types=1);
  */
 namespace App\Controller\api\v1;
 
-use Hyperf\HttpServer\Contract\RequestInterface;
+use App\Service\UserService;
 
 class UserController extends BaseController
 {
+    public $service = UserService::class;
+
+    protected $allows = ['index'];
+
 
 }
