@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Exception\BusinessException;
+use App\Middleware\Auth\AuthMiddleware;
+use App\Utils\JWT;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
@@ -36,4 +39,57 @@ abstract class AbstractController
      * @var ResponseInterface
      */
     protected $response;
+
+    /**
+     * 获取token
+     * @return string
+     */
+    public function getAuthToken()
+    {
+        return AuthMiddleware::$authToken;
+    }
+
+    /**
+     * 验证token并获取token值
+     * @return array|bool|object|string
+     */
+    public function validateAuthToken()
+    {
+        return JWT::getTokenInfo($this->getAuthToken());
+    }
+
+    /**
+     * 创建token
+     * @param $info
+     * @return string
+     */
+    public function createAuthToken($info)
+    {
+        return JWT::createToken($info);
+    }
+
+    /**
+     * 获取用户id
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        $info = $this->validateAuthToken();
+        return $info['id'];
+    }
+
+    /**
+     * 全局参数验证
+     * @param RequestInterface $request
+     * @param array $valid_method
+     * @param int $code
+     * @param string $message
+     */
+    public function validateParam(RequestInterface $request, array $valid_method, int $code, string $message)
+    {
+        $isValid = \GUMP::is_valid($request->all(), $valid_method);
+        if (!($isValid === true)) {
+            throw new BusinessException($code, $message);
+        }
+    }
 }

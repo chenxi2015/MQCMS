@@ -19,7 +19,7 @@ class JWT extends BaseJWT
     /**
      * @var int
      */
-    public static $leeway = 30;
+    public static $leeway = 3600 * 24 * 2;
 
     /**
      * 解析token获取info数据
@@ -29,11 +29,11 @@ class JWT extends BaseJWT
     public static function getTokenInfo($token)
     {
         if (!$token) {
-            return false;
+            throw new BusinessException(400, 'token验证失败');
         }
         try {
             $payLoad = self::decode($token, env('JWT_KEY'), [self::JWT_ALGORITHM_METHOD]);
-            return $payLoad->sub;
+            return (array)$payLoad->sub;
 
         } catch (\Exception $e) {
             throw new BusinessException($e->getCode(), $e->getMessage());
