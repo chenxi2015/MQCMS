@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Controller\api\v1;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\RequestMapping;
+use Hyperf\HttpServer\Contract\RequestInterface;
 
 /**
  * @Controller()
@@ -25,7 +26,7 @@ class IndexController extends BaseController
      * @RequestMapping(path="index", methods="get, post")
      * @return array
      */
-    public function index()
+    public function index(RequestInterface $request)
     {
         $user = $this->request->input('user', 'MQCMS');
         $method = $this->request->getMethod();

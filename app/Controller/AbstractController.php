@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Exception\BusinessException;
 use App\Middleware\Auth\AuthMiddleware;
 use App\Utils\JWT;
 use Hyperf\Di\Annotation\Inject;
@@ -67,4 +68,18 @@ abstract class AbstractController
         return JWT::createToken($info);
     }
 
+    /**
+     * 全局参数验证
+     * @param RequestInterface $request
+     * @param array $valid_method
+     * @param int $code
+     * @param string $message
+     */
+    public function validateParam(RequestInterface $request, array $valid_method, int $code, string $message)
+    {
+        $isValid = \GUMP::is_valid($request->all(), $valid_method);
+        if (!($isValid === true)) {
+            throw new BusinessException($code, $message);
+        }
+    }
 }

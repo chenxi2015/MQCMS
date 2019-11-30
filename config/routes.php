@@ -30,6 +30,7 @@ Router::addGroup('/api/', function () {
         // 标签
         Router::addGroup('tag/', function () {
             Router::get('index', 'App\Controller\api\v1\TagController@index');
+            Router::get('show', 'App\Controller\api\v1\TagController@show');
             Router::post('store', 'App\Controller\api\v1\TagController@store');
         });
 

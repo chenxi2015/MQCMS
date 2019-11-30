@@ -41,38 +41,61 @@ class BaseService
         }
     }
 
+    /**
+     * @param RequestInterface $request
+     * @return \Hyperf\Database\Model\Model|\Hyperf\Database\Query\Builder|object|null
+     */
     public function show(RequestInterface $request)
     {
         try {
+            $data = Db::table($this->table)->where($this->condition)->select($this->select)->first();
+            return $data ?? [];
 
-        }  catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new BusinessException($e->getCode(), $e->getMessage());
         }
     }
 
-    public function update(RequestInterface $request)
+    /**
+     * @param RequestInterface $request
+     * @param $data
+     * @return int
+     */
+    public function update(RequestInterface $request, $data)
     {
         try {
+            return Db::table($this->table)->where($this->condition)->update($data);
 
-        }  catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new BusinessException($e->getCode(), $e->getMessage());
         }
     }
 
+    /**
+     * @param RequestInterface $request
+     * @return int
+     */
     public function delete(RequestInterface $request)
     {
         try {
+            return Db::table($this->table)->where($this->condition)->delete();
 
-        }  catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new BusinessException($e->getCode(), $e->getMessage());
         }
     }
 
-    public function store(RequestInterface $request)
+    /**
+     * @param RequestInterface $request
+     * @param $data
+     * @return int
+     */
+    public function store(RequestInterface $request, $data)
     {
         try {
+            return Db::table($this->table)->insertGetId($data);
 
-        }  catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new BusinessException($e->getCode(), $e->getMessage());
         }
     }
