@@ -34,6 +34,12 @@ class BaseController extends AbstractController
     public $groupBy = '';
 
     /**
+     * 存储数组
+     * @var array
+     */
+    public $data = [];
+
+    /**
      * @var string
      */
     public $service = BaseService::class;
@@ -65,9 +71,10 @@ class BaseController extends AbstractController
     public function beforeBuildQuery(RequestInterface $request)
     {
         $this->block->condition = $this->condition;
-        $this->block->select = $this->select;
-        $this->block->orderBy = $this->orderBy;
-        $this->block->groupBy = $this->groupBy;
+        $this->block->select    = $this->select;
+        $this->block->orderBy   = $this->orderBy;
+        $this->block->groupBy   = $this->groupBy;
+        $this->block->data      = $this->data;
     }
 
     /**
@@ -122,6 +129,6 @@ class BaseController extends AbstractController
     public function store(RequestInterface $request)
     {
         $this->beforeBuildQuery($request);
-        return $this->block->store($request);
+        return ['id' => $this->block->store($request)];
     }
 }

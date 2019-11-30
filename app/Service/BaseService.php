@@ -5,7 +5,6 @@ namespace App\Service;
 
 
 use App\Exception\BusinessException;
-use App\Utils\Common;
 use Hyperf\DbConnection\Db;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Paginator\Paginator;
@@ -14,13 +13,35 @@ class BaseService
 {
     protected $table = '';
 
+    /**
+     * 查询条件
+     * @var array
+     */
     public $condition = [];
 
+    /**
+     * 查询数据
+     * @var array
+     */
     public $select = ['*'];
 
+    /**
+     * 排序
+     * @var string
+     */
     public $orderBy = 'id desc';
 
+    /**
+     * 分组
+     * @var string
+     */
     public $groupBy = '';
+
+    /**
+     * 存储数组
+     * @var array
+     */
+    public $data = [];
 
     /**
      * @param RequestInterface $request
@@ -61,10 +82,10 @@ class BaseService
      * @param $data
      * @return int
      */
-    public function update(RequestInterface $request, $data)
+    public function update(RequestInterface $request)
     {
         try {
-            return Db::table($this->table)->where($this->condition)->update($data);
+            return Db::table($this->table)->where($this->condition)->update($this->data);
 
         } catch (\Exception $e) {
             throw new BusinessException($e->getCode(), $e->getMessage());
@@ -90,10 +111,10 @@ class BaseService
      * @param $data
      * @return int
      */
-    public function store(RequestInterface $request, $data)
+    public function store(RequestInterface $request)
     {
         try {
-            return Db::table($this->table)->insertGetId($data);
+            return Db::table($this->table)->insertGetId($this->data);
 
         } catch (\Exception $e) {
             throw new BusinessException($e->getCode(), $e->getMessage());

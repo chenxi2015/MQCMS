@@ -69,6 +69,16 @@ abstract class AbstractController
     }
 
     /**
+     * 获取用户id
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        $info = $this->validateAuthToken();
+        return $info['id'];
+    }
+
+    /**
      * 全局参数验证
      * @param RequestInterface $request
      * @param array $valid_method

@@ -69,4 +69,28 @@ class TagController extends BaseController
         $this->condition = ['id' => $id];
         return parent::show($request);
     }
+
+    /**
+     * @param RequestInterface $request
+     * @param array $data
+     * @return mixed
+     */
+    public function store(RequestInterface $request)
+    {
+        $this->validateParam($request, [
+            'tag_name' => 'required',
+        ], 400, '参数错误');
+
+        // 验证token
+        $this->validateAuthToken();
+
+        $data = [
+            'tag_name' => $request->input('tag_name'),
+            'is_hot' => 0,
+            'status' => 1,
+            'first_create_user_id' => $this->getUserId()
+        ];
+        $this->data = $data;
+        return parent::store($request);
+    }
 }
