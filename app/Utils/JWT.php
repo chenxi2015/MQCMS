@@ -23,17 +23,26 @@ class JWT extends BaseJWT
     public static $leeway = 3600 * 24 * 2;
 
     /**
-     * 解析token获取info数据
+     * @param int $leeway
+     */
+    public static function setLeeway(int $leeway): void
+    {
+        self::$leeway = $leeway;
+    }
+
+    /**
+     * get token info
      * @param $token
      * @return array|bool|object|string
      */
-    public static function getTokenInfo($token)
+    public static function getTokenInfo($token, $jwt_config)
     {
         if (!$token) {
             throw new BusinessException(ErrorCode::UNAUTHORIZED, 'token验证失败');
         }
         try {
-            $payLoad = self::decode($token, env('JWT_KEY'), [self::JWT_ALGORITHM_METHOD]);
+            self::setLeeway((int)$jwt_config['exp']);
+            $payLoad = self::decode($token, $jwt_config['key'], [self::JWT_ALGORITHM_METHOD]);
             return (array)$payLoad->sub;
 
         } catch (\Exception $e) {
@@ -42,34 +51,35 @@ class JWT extends BaseJWT
     }
 
     /**
-     * 更新token
+     * refresh token
      * @param $token
      * @return array|string
      */
-    public static function refreshToken($info)
+    public static function refreshToken($info, $jwt_config)
     {
         try {
-            return self::createToken($info);
+            return self::createToken($info, $jwt_config);
 
         } catch (\Exception $e) {
             throw new BusinessException($e->getCode(), $e->getMessage());
         }
-
     }
 
     /**
-     * 生成token
+     * create token
      * @param $info
      * @return string
      */
-    public static function createToken($info)
+    public static function createToken($info, $jwt_config)
     {
+        self::setLeeway((int)$jwt_config['exp']);
         $payload = [
-            'iss' => 'mqcms', // 签发人
-            'iat' => time(), // 过期时间
-            'exp' => time() + self::$leeway, // 过期时间
-            'sub' => $info, // 主题
+            'iss' => $jwt_config['iss'],        // 签发人
+            'aud' => $jwt_config['aud'],        // 接收方
+            'iat' => time(),                    // 签发时间
+            'exp' => time() + self::$leeway,    // 过期时间
+            'sub' => $info,                     // 主题
         ];
-        return self::encode($payload, env('JWT_KEY'), self::JWT_ALGORITHM_METHOD);
+        return self::encode($payload, $jwt_config['key'], self::JWT_ALGORITHM_METHOD);
     }
 }

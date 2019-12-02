@@ -57,3 +57,18 @@ Router::addGroup('/api/', function () {
     });
 });
 
+// 后台接口
+Router::addGroup('/admin/', function () {
+    Router::addGroup('v1/', function () {
+
+        // token
+        Router::addGroup('token/', function () {
+            // 创建token
+            Router::post('create', 'App\Controller\admin\v1\tokencontroller@store');
+            // 获取token信息
+            Router::get('info', 'App\Controller\admin\v1\TokenController@index', ['middleware' => [AuthMiddleware::class]]);
+        });
+
+    });
+});
+

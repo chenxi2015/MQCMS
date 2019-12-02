@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
 use App\Middleware\Auth\AuthMiddleware;
 use App\Utils\JWT;
@@ -46,6 +47,44 @@ abstract class AbstractController
     protected $allows = [];
 
     /**
+     * @var string
+     */
+    protected $jwtKeyName = 'JWT_API_KEY';
+
+    /**
+     * @var string
+     */
+    protected $jwtKeyExp = 'JWT_API_EXP';
+
+    /**
+     * @var string
+     */
+    protected $jwtKeyAud = 'JWT_API_AUD';
+
+    /**
+     * @var string
+     */
+    protected $jwtKeyId = 'JWT_API_ID';
+
+    /**
+     * @var string
+     */
+    protected $jwtKeyIss = 'JWT_API_ISS';
+
+    /**
+     * @return array
+     */
+    public function getJwtConfig()
+    {
+        return [
+            'key' => env($this->jwtKeyName),
+            'exp' => env($this->jwtKeyExp),
+            'aud' => env($this->jwtKeyAud),
+            'iss' => env($this->jwtKeyIss)
+        ];
+    }
+
+    /**
      * 获取token
      * @return string
      */
@@ -60,7 +99,11 @@ abstract class AbstractController
      */
     public function validateAuthToken()
     {
-        return JWT::getTokenInfo($this->getAuthToken());
+        $currentPath = $this->getCurrentPath();
+        if ($currentPath !== env($this->jwtKeyId)) {
+            throw new BusinessException(ErrorCode::UNAUTHORIZED, 'token验证失败');
+        }
+        return JWT::getTokenInfo($this->getAuthToken(), $this->getJwtConfig());
     }
 
     /**
@@ -70,7 +113,7 @@ abstract class AbstractController
      */
     public function createAuthToken($info)
     {
-        return JWT::createToken($info);
+        return JWT::createToken($info, $this->getJwtConfig());
     }
 
     /**
@@ -129,4 +172,14 @@ abstract class AbstractController
         return $method;
     }
 
+    /**
+     * 获取当前访问目录
+     * @return string
+     */
+    public function getCurrentPath()
+    {
+        $pathList = explode('/', $this->request->decodedPath());
+        $path = !empty($pathList) ? $pathList[0] : '';
+        return $path;
+    }
 }

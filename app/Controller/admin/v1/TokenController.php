@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller\api\v1;
+namespace App\Controller\admin\v1;
 
 use Hyperf\HttpServer\Contract\RequestInterface;
 
