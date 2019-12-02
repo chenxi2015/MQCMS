@@ -22,6 +22,8 @@ class AuthController extends BaseController
 {
     public $service = UserService::class;
 
+    protected $allows = ['register', 'login'];
+
     /**
      * 注册
      * @param RequestInterface $request

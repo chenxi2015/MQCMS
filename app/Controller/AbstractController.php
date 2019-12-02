@@ -143,15 +143,14 @@ abstract class AbstractController
 
     /**
      * allows数组中允许的不需要token验证合法
-     * @param $className
      * @return bool
      */
-    public function validateIsAllow($className)
+    public function validateIsAllow()
     {
         if (empty($this->allows)) {
             $this->validateAuthToken();
         } else {
-            $method = $this->getCurrentActionName($className);
+            $method = $this->getCurrentActionName();
             if (!in_array($method, $this->allows)) {
                 $this->validateAuthToken();
             }
@@ -161,12 +160,11 @@ abstract class AbstractController
 
     /**
      * 获取当前访问的控制器的方法名称
-     * @param $className
      * @return array|mixed|string
      */
-    public function getCurrentActionName($className) {
+    public function getCurrentActionName() {
         $pathList = explode('/', $this->request->decodedPath());
-        $methods = get_class_methods(new $className());
+        $methods = get_class_methods(get_class($this));
         $method = $methods && !empty($pathList) ? array_values(array_intersect($pathList, $methods)) : [];
         $method = !empty($method) && count($method) === 1 ? $method[0] : '';
         return $method;

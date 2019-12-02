@@ -12,11 +12,6 @@ class BaseController extends AbstractController
     /**
      * @var string
      */
-    public $className = self::class;
-
-    /**
-     * @var string
-     */
     public $service = BaseService::class;
 
     /**
@@ -106,7 +101,7 @@ class BaseController extends AbstractController
      */
     public function beforeAction(RequestInterface $request)
     {
-        $this->validateIsAllow($this->className);
+        $this->validateIsAllow();
         $this->block->condition = $this->condition;
         $this->block->select    = $this->select;
         $this->block->orderBy   = $this->orderBy;
