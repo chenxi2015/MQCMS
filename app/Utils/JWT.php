@@ -6,6 +6,7 @@ declare(strict_types=1);
  */
 namespace App\Utils;
 
+use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
 use Firebase\JWT\JWT as BaseJWT;
 
@@ -29,7 +30,7 @@ class JWT extends BaseJWT
     public static function getTokenInfo($token)
     {
         if (!$token) {
-            throw new BusinessException(400, 'token验证失败');
+            throw new BusinessException(ErrorCode::UNAUTHORIZED, 'token验证失败');
         }
         try {
             $payLoad = self::decode($token, env('JWT_KEY'), [self::JWT_ALGORITHM_METHOD]);
