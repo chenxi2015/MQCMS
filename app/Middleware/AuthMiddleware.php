@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Middleware\Auth;
+namespace App\Middleware;
 
 use App\Constants\ErrorCode;
 use App\Exception\BusinessException;

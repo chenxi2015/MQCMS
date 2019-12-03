@@ -157,4 +157,5 @@ class BaseService
     {
         return new Paginator($data, $per_page, $current_page);
     }
+
 }

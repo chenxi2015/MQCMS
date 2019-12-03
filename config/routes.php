@@ -11,7 +11,7 @@ declare(strict_types=1);
  */
 
 use Hyperf\HttpServer\Router\Router;
-use App\Middleware\Auth\AuthMiddleware;
+use App\Middleware\AuthMiddleware;
 
 Router::addRoute(['GET', 'POST', 'HEAD'], '/', 'App\Controller\api\v1\IndexController@index');
 
@@ -69,6 +69,11 @@ Router::addGroup('/admin/', function () {
             Router::get('info', 'App\Controller\admin\v1\TokenController@index', ['middleware' => [AuthMiddleware::class]]);
         });
 
+        // auth
+        Router::addGroup('auth/', function () {
+            Router::post('login', 'App\Controller\admin\v1\AuthController@login');
+            Router::post('register', 'App\Controller\admin\v1\AuthController@register');
+        });
     });
 });
 

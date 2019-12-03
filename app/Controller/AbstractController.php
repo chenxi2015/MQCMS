@@ -14,7 +14,7 @@ namespace App\Controller;
 
 use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
-use App\Middleware\Auth\AuthMiddleware;
+use App\Middleware\AuthMiddleware;
 use App\Utils\JWT;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
