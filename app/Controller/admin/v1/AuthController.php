@@ -17,7 +17,7 @@ use Hyperf\HttpServer\Contract\RequestInterface;
 /**
  * @Controller
  * Class AuthController
- * @package App\Controller\api\v1
+ * @package App\Controller\admin\v1
  */
 class AuthController extends BaseController
 {
@@ -44,12 +44,19 @@ class AuthController extends BaseController
         $password = $request->input('password');
         $ip = $request->getHeader('Host')[0];
 
-        $adminInfo = AuthService::getAdminInfoByUsername($account);
-        if ($adminInfo) {
-            throw new BusinessException(ErrorCode::BAD_REQUEST, '账号已存在，请直接登录');
-        }
-        $salt = Common::generateSalt();
+        $this->select = ['id', 'status', 'avatar'];
+        $this->condition = [['account', '=', $account]];
+        $adminInfo = parent::show($request);
 
+        if ($adminInfo) {
+            if ($adminInfo['status'] == 0) {
+                throw new BusinessException(ErrorCode::BAD_REQUEST, '账号已被封禁');
+            } else {
+                throw new BusinessException(ErrorCode::BAD_REQUEST, '账号已存在，请直接登录');
+            }
+        }
+        // 新建用户
+        $salt = Common::generateSalt();
         $data = [
             'account' => $account,
             'password' => Common::generatePasswordHash($password, $salt),
@@ -71,7 +78,17 @@ class AuthController extends BaseController
             throw new BusinessException(ErrorCode::BAD_REQUEST, '注册失败');
         }
         $token = $this->createAuthToken(['id' => $lastInsertId]);
-        return $this->response->json(['code' => ErrorCode::OK, 'message' => '注册成功', 'data' => ['token' => $token, 'expire_time' => JWT::$leeway]]);
+
+        return $this->response->json([
+            'token' => $token,
+            'expire_time' => JWT::$leeway,
+            'uuid' => $adminInfo['id'],
+            'info' => [
+                'name' => $account,
+                'avatar' => $adminInfo['avatar'],
+                'access' => []
+            ]
+        ]);
     }
 
     /**
@@ -88,18 +105,30 @@ class AuthController extends BaseController
 
         $account = $request->input('account');
         $password = $request->input('password');
-        $adminInfo = AuthService::getAdminInfoByUsername($account, ['id', 'salt', 'password']);
 
-        if (!$adminInfo) {
-            throw new BusinessException(ErrorCode::BAD_REQUEST, '用户不存在');
+        $this->select = ['id', 'salt', 'avatar', 'password'];
+        $this->condition = [['status', '=', 1], ['account', '=', $account]];
+        $adminInfo = parent::show($request);
+
+        if (empty($adminInfo)) {
+            throw new BusinessException(ErrorCode::BAD_REQUEST, '账号不存在或被限制登录');
         }
 
-        if ($adminInfo->password != Common::generatePasswordHash($password, $adminInfo->salt)) {
+        if ($adminInfo['password'] != Common::generatePasswordHash($password, $adminInfo['salt'])) {
             throw new BusinessException(ErrorCode::BAD_REQUEST, '密码不正确');
         }
 
-        $token = $this->createAuthToken(['id' => $adminInfo->id]);
-        return $this->response->json(['token' => $token, 'expire_time' => JWT::$leeway]);
+        $token = $this->createAuthToken(['id' => $adminInfo['id']]);
+        return $this->response->json([
+            'token' => $token,
+            'expire_time' => JWT::$leeway,
+            'uuid' => $adminInfo['id'],
+            'info' => [
+                'name' => $account,
+                'avatar' => $adminInfo['avatar'],
+                'access' => []
+            ]
+        ]);
     }
 
 }
