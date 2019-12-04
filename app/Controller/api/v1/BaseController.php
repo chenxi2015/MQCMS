@@ -125,7 +125,7 @@ class BaseController extends AbstractController
     public function delete(RequestInterface $request)
     {
         $this->beforeAction($request);
-        return ['result' => $this->block->delete($request)];
+        return $this->block->delete($request);
     }
 
     /**
@@ -136,6 +136,6 @@ class BaseController extends AbstractController
     public function store(RequestInterface $request)
     {
         $this->beforeAction($request);
-        return ['id' => $this->block->store($request)];
+        return $this->block->store($request);
     }
 }

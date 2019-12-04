@@ -82,10 +82,10 @@ class AuthController extends BaseController
         return $this->response->json([
             'token' => $token,
             'expire_time' => JWT::$leeway,
-            'uuid' => $adminInfo['id'],
+            'uuid' => $lastInsertId,
             'info' => [
                 'name' => $account,
-                'avatar' => $adminInfo['avatar'],
+                'avatar' => '',
                 'access' => []
             ]
         ]);
