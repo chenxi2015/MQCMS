@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * 附件表
+ */
 use Hyperf\Database\Schema\Schema;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Migrations\Migration;

@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * 后台管理员表
+ */
 use Hyperf\Database\Schema\Schema;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Migrations\Migration;
@@ -18,7 +20,7 @@ class CreateAdminTable extends Migration
                 $table->string('password', 64)->nullable(false)->default('')->comment('密码');
                 $table->string('phone', 16)->nullable(false)->default('')->comment('手机号');
                 $table->string('avatar', 128)->nullable(false)->default('')->comment('头像');
-                $table->unsignedTinyInteger('status')->nullable(false)->default(1)->comment('状态 1：正常 2：禁用');
+                $table->unsignedTinyInteger('status')->nullable(false)->default(1)->comment('状态 1：正常 0：禁用');
                 $table->string('salt', 16)->nullable(false)->comment('密码');
                 $table->string('real_name', 64)->nullable(false)->default('')->comment('真实姓名');
                 $table->string('register_time', 16)->nullable(false)->comment('注册时间');
