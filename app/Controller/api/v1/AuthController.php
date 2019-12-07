@@ -42,16 +42,23 @@ class AuthController extends BaseController
         $password = $request->input('password');
         $ip = $request->getHeader('Host')[0];
 
-        $userInfo = UserService::getInfoByUsername($userName);
+        $this->select = ['id', 'status', 'avatar'];
+        $this->condition = [['user_name', '=', $userName]];
+        $userInfo = parent::show($request);
+
         if ($userInfo) {
-            throw new BusinessException(ErrorCode::BAD_REQUEST, '用户名已存在');
+            if ($userInfo['status'] == 0) {
+                throw new BusinessException(ErrorCode::BAD_REQUEST, '账号已被封禁');
+            } else {
+                throw new BusinessException(ErrorCode::BAD_REQUEST, '账号已存在，请直接登录');
+            }
         }
         $salt = Common::generateSalt();
-
         $data = [
-            'user_no' => $userName . generateRandomString(6),
+            'user_no' => $this->generateSnowId(),
             'user_name' => $userName,
             'real_name' => '',
+            'nick_name' => $userName . generateRandomString(6),
             'phone' => '',
             'avatar' => '',
             'password' => Common::generatePasswordHash($password, $salt),
@@ -88,7 +95,10 @@ class AuthController extends BaseController
 
         $userName = $request->input('user_name');
         $password = $request->input('password');
-        $userInfo = UserService::getInfoByUsername($userName, ['id', 'salt', 'password']);
+
+        $this->select = ['id', 'salt', 'password'];
+        $this->condition = [['status', '=', 1], ['user_name', '=', $userName]];
+        $userInfo = parent::show($request);
 
         if (!$userInfo) {
             throw new BusinessException(ErrorCode::BAD_REQUEST, '用户不存在');

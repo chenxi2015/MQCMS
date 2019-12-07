@@ -19,6 +19,8 @@ use App\Utils\JWT;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
+use Hyperf\Snowflake\IdGeneratorInterface;
+use Hyperf\Utils\ApplicationContext;
 use Psr\Container\ContainerInterface;
 
 abstract class AbstractController
@@ -33,7 +35,7 @@ abstract class AbstractController
      * @Inject
      * @var RequestInterface
      */
-    protected $request;
+    protected   $request;
 
     /**
      * @Inject
@@ -179,5 +181,29 @@ abstract class AbstractController
         $pathList = explode('/', $this->request->decodedPath());
         $path = !empty($pathList) ? $pathList[0] : '';
         return $path;
+    }
+
+    /**
+     * 分布式全局唯一ID生成算法
+     * @return int
+     */
+    public function generateSnowId()
+    {
+        $container = ApplicationContext::getContainer();
+        $generator = $container->get(IdGeneratorInterface::class);
+        return $generator->generate();
+    }
+
+    /**
+     * 根据ID反推对应的Meta
+     * @param $id
+     * @return \Hyperf\Snowflake\Meta
+     */
+    public function degenerateSnowId($id)
+    {
+        $container = ApplicationContext::getContainer();
+        $generator = $container->get(IdGeneratorInterface::class);
+
+        return $generator->degenerate($id);
     }
 }

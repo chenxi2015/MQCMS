@@ -143,7 +143,10 @@ class BaseService
         if (!empty($group_by)) {
             $query = $query->groupBy(implode(',', $group_by));
         }
-        return $query->paginate($limit, $select, 'page', $page)->toArray();
+        $count = $query->count();
+        $pagination = $query->paginate($limit, $select, 'page', $page)->toArray();
+        $pagination['total'] = $count;
+        return $pagination;
     }
 
     /**

@@ -64,6 +64,19 @@ class BaseController extends AbstractController
     }
 
     /**
+     * 重置属性值
+     */
+    public function resetAttributes()
+    {
+        $this->allows = [];
+        $this->condition = [];
+        $this->select = ['*'];
+        $this->orderBy = 'id desc';
+        $this->groupBy = '';
+        $this->data = [];
+    }
+
+    /**
      * @return mixed
      */
     public function setBlock()
@@ -82,6 +95,7 @@ class BaseController extends AbstractController
         $this->block->orderBy   = $this->orderBy;
         $this->block->groupBy   = $this->groupBy;
         $this->block->data      = $this->data;
+        $this->resetAttributes();
     }
 
     /**

@@ -18,7 +18,7 @@ class BaseController extends AbstractController
      * 验证token是否合法 allows里面不需要验证
      * @var array
      */
-    protected $allows = ['index', 'show'];
+    protected $allows = [];
 
     /**
      * 查询条件
@@ -89,6 +89,19 @@ class BaseController extends AbstractController
     }
 
     /**
+     * 重置属性值
+     */
+    public function resetAttributes()
+    {
+        $this->allows = [];
+        $this->condition = [];
+        $this->select = ['*'];
+        $this->orderBy = 'id desc';
+        $this->groupBy = '';
+        $this->data = [];
+    }
+
+    /**
      * @return mixed
      */
     public function setBlock()
@@ -107,6 +120,7 @@ class BaseController extends AbstractController
         $this->block->orderBy   = $this->orderBy;
         $this->block->groupBy   = $this->groupBy;
         $this->block->data      = $this->data;
+        $this->resetAttributes();
     }
 
     /**

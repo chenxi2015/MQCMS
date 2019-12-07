@@ -50,6 +50,7 @@ class TagController extends BaseController
     }
 
     /**
+     * 新增
      * @param RequestInterface $request
      * @param array $data
      * @return mixed

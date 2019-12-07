@@ -74,6 +74,14 @@ Router::addGroup('/admin/', function () {
             Router::post('login', 'App\Controller\admin\v1\AuthController@login');
             Router::post('register', 'App\Controller\admin\v1\AuthController@register');
         });
+
+        // 用户
+        Router::addGroup('user/', function () {
+            Router::get('index', 'App\Controller\admin\v1\UserController@index');
+            Router::post('store', 'App\Controller\admin\v1\UserController@store');
+            Router::post('update', 'App\Controller\admin\v1\UserController@update');
+        }, ['middleware' => [AuthMiddleware::class]]);
+
     });
 });
 
