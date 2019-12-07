@@ -23,7 +23,8 @@ class CreateUserInfoTable extends Migration
                 $table->unsignedInteger('fans_num')->nullable(false)->default(0)->comment('粉丝数');
                 $table->unsignedInteger('post_num')->nullable(false)->default(0)->comment('发帖数');
                 $table->unsignedInteger('my_like_num')->nullable(false)->default(0)->comment('我点赞数');
-                $table->timestamps();
+                $table->unsignedBigInteger('created_at')->nullable();
+                $table->unsignedBigInteger('updated_at')->nullable();
             });
         }
     }

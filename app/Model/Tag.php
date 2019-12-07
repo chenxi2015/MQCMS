@@ -5,12 +5,13 @@ namespace App\Model;
 
 /**
  * @property int $id 
+ * @property int $first_create_user_id 
  * @property string $tag_name 
  * @property int $is_hot 
  * @property int $status 
- * @property int $first_create_user_id 
  * @property int $used_count 
- * @property \Carbon\Carbon $created_at 
+ * @property string $created_at 
+ * @property string $updated_at 
  */
 class Tag extends Model
 {
@@ -26,11 +27,11 @@ class Tag extends Model
      *
      * @var array
      */
-    protected $fillable = ['id', 'tag_name', 'is_hot', 'status', 'first_create_user_id', 'used_count', 'created_at'];
+    protected $fillable = ['id', 'first_create_user_id', 'tag_name', 'is_hot', 'status', 'used_count', 'created_at', 'updated_at'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'is_hot' => 'integer', 'status' => 'integer', 'first_create_user_id' => 'integer', 'used_count' => 'integer', 'created_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'first_create_user_id' => 'integer', 'is_hot' => 'integer', 'status' => 'integer', 'used_count' => 'integer'];
 }

@@ -21,7 +21,8 @@ class CreateTagTable extends Migration
                 $table->unsignedTinyInteger('is_hot')->nullable(false)->default(0)->comment('是否热门 0：正常 1：热门');
                 $table->unsignedTinyInteger('status')->nullable(false)->default(1)->comment('状态 1：正常 0：禁用（删除）');
                 $table->unsignedInteger('used_count')->nullable(false)->default(1)->comment('被使用的次数');
-                $table->timestamps();
+                $table->unsignedBigInteger('created_at')->nullable();
+                $table->unsignedBigInteger('updated_at')->nullable();
             });
         }
     }

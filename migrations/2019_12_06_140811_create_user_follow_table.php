@@ -18,7 +18,8 @@ class CreateUserFollowTable extends Migration
                 $table->bigIncrements('id');
                 $table->unsignedInteger('user_id')->nullable(false)->comment('用户id');
                 $table->unsignedInteger('be_user_id')->nullable(false)->comment('被关注者用户id');
-                $table->timestamps();
+                $table->unsignedBigInteger('created_at')->nullable();
+                $table->unsignedBigInteger('updated_at')->nullable();
             });
         }
     }

@@ -28,7 +28,8 @@ class CreateUserTable extends Migration
                 $table->string('register_ip', 32)->nullable(false)->comment('注册ip');
                 $table->string('login_time', 16)->nullable(false)->comment('登录时间');
                 $table->string('login_ip', 32)->nullable(false)->comment('登录ip');
-                $table->timestamps();
+                $table->unsignedBigInteger('created_at')->nullable();
+                $table->unsignedBigInteger('updated_at')->nullable();
             });
         }
     }

@@ -18,7 +18,8 @@ class CreateUserFavoriteTable extends Migration
                 $table->bigIncrements('id');
                 $table->unsignedInteger('user_id')->nullable(false)->comment('用户id');
                 $table->unsignedInteger('post_id')->nullable(false)->comment('帖子id');
-                $table->timestamps();
+                $table->unsignedBigInteger('created_at')->nullable();
+                $table->unsignedBigInteger('updated_at')->nullable();
             });
         }
     }

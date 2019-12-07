@@ -7,9 +7,11 @@ namespace App\Model;
  * @property int $id 
  * @property int $user_id 
  * @property string $oauth_id 
- * @property string $unionid 
+ * @property string $union_id 
  * @property string $auth_type 
  * @property string $credential 
+ * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
  */
 class UserAuth extends Model
 {
@@ -24,11 +26,11 @@ class UserAuth extends Model
      *
      * @var array
      */
-    protected $fillable = ['id', 'user_id', 'oauth_id', 'unionid', 'auth_type', 'credential'];
+    protected $fillable = ['id', 'user_id', 'oauth_id', 'union_id', 'auth_type', 'credential', 'created_at', 'updated_at'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'user_id' => 'integer'];
+    protected $casts = ['id' => 'integer', 'user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 }

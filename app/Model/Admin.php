@@ -11,6 +11,7 @@ namespace App\Model;
  * @property string $avatar 
  * @property int $status 
  * @property string $salt 
+ * @property string $real_name 
  * @property string $register_time 
  * @property string $register_ip 
  * @property string $login_time 
@@ -31,7 +32,7 @@ class Admin extends Model
      *
      * @var array
      */
-    protected $fillable = ['id', 'account', 'password', 'phone', 'avatar', 'status', 'salt', 'register_time', 'register_ip', 'login_time', 'login_ip', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'account', 'password', 'phone', 'avatar', 'status', 'salt', 'real_name', 'register_time', 'register_ip', 'login_time', 'login_ip', 'created_at', 'updated_at'];
     /**
      * The attributes that should be cast to native types.
      *

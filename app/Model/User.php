@@ -5,7 +5,7 @@ namespace App\Model;
 
 /**
  * @property int $id 
- * @property string $ user_no 
+ * @property string $user_no 
  * @property string $user_name 
  * @property string $real_name 
  * @property string $phone 
@@ -18,6 +18,7 @@ namespace App\Model;
  * @property string $login_time 
  * @property string $login_ip 
  * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
  */
 class User extends Model
 {
@@ -33,11 +34,11 @@ class User extends Model
      *
      * @var array
      */
-    protected $fillable = ['id', 'user_no', 'user_name', 'real_name', 'phone', 'avatar', 'password', 'salt', 'status', 'register_time', 'register_ip', 'login_time', 'login_ip', 'created_at'];
+    protected $fillable = ['id', 'user_no', 'user_name', 'real_name', 'phone', 'avatar', 'password', 'salt', 'status', 'register_time', 'register_ip', 'login_time', 'login_ip', 'created_at', 'updated_at'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'status' => 'integer'];
+    protected $casts = ['id' => 'integer', 'status' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 }

@@ -13,13 +13,16 @@ class CreateTagPostRelationTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('tag_post_relation', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedInteger('user_id')->nullable(false)->comment('用户id');
-            $table->unsignedInteger('tag_id')->nullable(false)->comment('标签id');
-            $table->unsignedInteger('post_id')->nullable(false)->comment('帖子id');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('tag_post_relation')) {
+            Schema::create('tag_post_relation', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->unsignedInteger('user_id')->nullable(false)->comment('用户id');
+                $table->unsignedInteger('tag_id')->nullable(false)->comment('标签id');
+                $table->unsignedInteger('post_id')->nullable(false)->comment('帖子id');
+                $table->unsignedBigInteger('created_at')->nullable();
+                $table->unsignedBigInteger('updated_at')->nullable();
+            });
+        }
     }
 
     /**
