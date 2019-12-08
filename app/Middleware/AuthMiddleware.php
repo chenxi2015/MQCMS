@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Middleware\Auth;
+namespace App\Middleware;
 
 use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
@@ -73,10 +73,10 @@ class AuthMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $header = $this->request->getHeader($this->header);
+        $header = $request->getHeader($this->header);
         $isValidToken = $this->authenticate($header);
         if (!$isValidToken) {
-            throw new BusinessException(ErrorCode::HTTP_NOT_FOUND, 'token不存在');
+            throw new BusinessException(ErrorCode::UNAUTHORIZED, 'token验证失败');
         }
         return $handler->handle($request);
     }

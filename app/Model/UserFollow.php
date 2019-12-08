@@ -6,11 +6,9 @@ namespace App\Model;
 /**
  * @property int $id 
  * @property int $user_id 
- * @property int $post_id 
- * @property int $is_comment 
- * @property int $is_like 
- * @property int $is_collect 
+ * @property int $be_user_id 
  * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
  */
 class UserFollow extends Model
 {
@@ -25,11 +23,11 @@ class UserFollow extends Model
      *
      * @var array
      */
-    protected $fillable = ['id', 'user_id', 'post_id', 'is_comment', 'is_like', 'is_collect', 'created_at'];
+    protected $fillable = ['id', 'user_id', 'be_user_id', 'created_at', 'updated_at'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'user_id' => 'integer', 'post_id' => 'integer', 'is_comment' => 'integer', 'is_like' => 'integer', 'is_collect' => 'integer', 'created_at' => 'datetime'];
+    protected $casts = ['id' => 'integer', 'user_id' => 'integer', 'be_user_id' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 }

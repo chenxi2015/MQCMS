@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller\api\v1;
+namespace App\Controller\admin\v1;
 
 use App\Controller\AbstractController;
 use App\Service\BaseService;
@@ -18,7 +18,7 @@ class BaseController extends AbstractController
      * 验证token是否合法 allows里面不需要验证
      * @var array
      */
-    protected $allows = ['index', 'show'];
+    protected $allows = [];
 
     /**
      * 查询条件
@@ -54,6 +54,31 @@ class BaseController extends AbstractController
      * @var mixed
      */
     public $block;
+
+    /**
+     * @var string
+     */
+    protected $jwtKeyName = 'JWT_ADMIN_KEY';
+
+    /**
+     * @var string
+     */
+    protected $jwtKeyExp = 'JWT_ADMIN_EXP';
+
+    /**
+     * @var string
+     */
+    protected $jwtKeyAud = 'JWT_ADMIN_AUD';
+
+    /**
+     * @var string
+     */
+    protected $jwtKeyId = 'JWT_ADMIN_ID';
+
+    /**
+     * @var string
+     */
+    protected $jwtKeyIss = 'JWT_ADMIN_ISS';
 
     /**
      * BaseController constructor.

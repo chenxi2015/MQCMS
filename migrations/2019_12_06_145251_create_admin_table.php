@@ -1,30 +1,28 @@
 <?php
 /**
- * 用户表
+ * 后台管理员表
  */
 use Hyperf\Database\Schema\Schema;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Migrations\Migration;
 
-class CreateUserTable extends Migration
+class CreateAdminTable extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        if (!Schema::hasTable('user')) {
-            Schema::create('user', function (Blueprint $table) {
+        if (!Schema::hasTable('admin')) {
+            Schema::create('admin', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->string('user_no', 32)->nullable(false)->comment('唯一id号');
-                $table->string('user_name', 64)->nullable(false)->comment('用户名');
-                $table->string('nick_name', 64)->nullable(false)->comment('昵称');
-                $table->string('real_name', 64)->nullable(false)->default('')->comment('真实姓名');
+                $table->string('account', 64)->nullable(false)->comment('账号');
+                $table->string('password', 64)->nullable(false)->default('')->comment('密码');
                 $table->string('phone', 16)->nullable(false)->default('')->comment('手机号');
                 $table->string('avatar', 128)->nullable(false)->default('')->comment('头像');
-                $table->string('password', 64)->nullable(false)->default('')->comment('密码');
+                $table->unsignedTinyInteger('status')->nullable(false)->default(1)->comment('状态 1：正常 0：禁用');
                 $table->string('salt', 32)->nullable(false)->comment('密码');
-                $table->unsignedTinyInteger('status')->nullable(false)->default(1)->comment('状态 1：正常 2：禁用');
+                $table->string('real_name', 64)->nullable(false)->default('')->comment('真实姓名');
                 $table->string('register_time', 16)->nullable(false)->comment('注册时间');
                 $table->string('register_ip', 32)->nullable(false)->comment('注册ip');
                 $table->string('login_time', 16)->nullable(false)->comment('登录时间');
@@ -40,6 +38,6 @@ class CreateUserTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user');
+        Schema::dropIfExists('admin');
     }
 }

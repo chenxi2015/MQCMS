@@ -11,7 +11,7 @@ declare(strict_types=1);
  */
 
 use Hyperf\HttpServer\Router\Router;
-use App\Middleware\Auth\AuthMiddleware;
+use App\Middleware\AuthMiddleware;
 
 Router::addRoute(['GET', 'POST', 'HEAD'], '/', 'App\Controller\api\v1\IndexController@index');
 
@@ -32,6 +32,7 @@ Router::addGroup('/api/', function () {
             Router::get('index', 'App\Controller\api\v1\TagController@index');
             Router::get('show', 'App\Controller\api\v1\TagController@show');
             Router::post('store', 'App\Controller\api\v1\TagController@store', ['middleware' => [AuthMiddleware::class]]);
+            Router::delete('delete', 'App\Controller\api\v1\TagController@delete', ['middleware' => [AuthMiddleware::class]]);
         });
 
         // 用户
@@ -53,6 +54,34 @@ Router::addGroup('/api/', function () {
            Router::delete('delete', 'App\Controller\api\v1\PostController@delete');
            Router::post('update', 'App\Controller\api\v1\PostController@update');
         });
+    });
+});
+
+// 后台接口
+Router::addGroup('/admin/', function () {
+    Router::addGroup('v1/', function () {
+
+        // token
+        Router::addGroup('token/', function () {
+            // 创建token
+            Router::post('create', 'App\Controller\admin\v1\tokencontroller@store');
+            // 获取token信息
+            Router::get('info', 'App\Controller\admin\v1\TokenController@index', ['middleware' => [AuthMiddleware::class]]);
+        });
+
+        // auth
+        Router::addGroup('auth/', function () {
+            Router::post('login', 'App\Controller\admin\v1\AuthController@login');
+            Router::post('register', 'App\Controller\admin\v1\AuthController@register');
+        });
+
+        // 用户
+        Router::addGroup('user/', function () {
+            Router::get('index', 'App\Controller\admin\v1\UserController@index');
+            Router::post('store', 'App\Controller\admin\v1\UserController@store');
+            Router::post('update', 'App\Controller\admin\v1\UserController@update');
+        }, ['middleware' => [AuthMiddleware::class]]);
+
     });
 });
 

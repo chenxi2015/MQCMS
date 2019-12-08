@@ -12,6 +12,8 @@ namespace App\Model;
  * @property int $fans_num 
  * @property int $post_num 
  * @property int $my_like_num 
+ * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
  */
 class UserInfo extends Model
 {
@@ -26,11 +28,11 @@ class UserInfo extends Model
      *
      * @var array
      */
-    protected $fillable = ['id', 'user_id', 'intro', 'like_num', 'follow_num', 'fans_num', 'post_num', 'my_like_num'];
+    protected $fillable = ['id', 'user_id', 'intro', 'like_num', 'follow_num', 'fans_num', 'post_num', 'my_like_num', 'created_at', 'updated_at'];
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'user_id' => 'integer', 'like_num' => 'integer', 'follow_num' => 'integer', 'fans_num' => 'integer', 'post_num' => 'integer', 'my_like_num' => 'integer'];
+    protected $casts = ['id' => 'integer', 'user_id' => 'integer', 'like_num' => 'integer', 'follow_num' => 'integer', 'fans_num' => 'integer', 'post_num' => 'integer', 'my_like_num' => 'integer', 'created_at' => 'datetime', 'updated_at' => 'datetime'];
 }

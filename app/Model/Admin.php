@@ -5,14 +5,13 @@ namespace App\Model;
 
 /**
  * @property int $id 
- * @property string $user_no 
- * @property string $user_name 
- * @property string $real_name 
+ * @property string $account 
+ * @property string $password 
  * @property string $phone 
  * @property string $avatar 
- * @property string $password 
- * @property string $salt 
  * @property int $status 
+ * @property string $salt 
+ * @property string $real_name 
  * @property string $register_time 
  * @property string $register_ip 
  * @property string $login_time 
@@ -20,21 +19,20 @@ namespace App\Model;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  */
-class User extends Model
+class Admin extends Model
 {
-    public $timestamps = true;
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'user';
+    protected $table = 'admin';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['id', 'user_no', 'user_name', 'real_name', 'phone', 'avatar', 'password', 'salt', 'status', 'register_time', 'register_ip', 'login_time', 'login_ip', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'account', 'password', 'phone', 'avatar', 'status', 'salt', 'real_name', 'register_time', 'register_ip', 'login_time', 'login_ip', 'created_at', 'updated_at'];
     /**
      * The attributes that should be cast to native types.
      *
