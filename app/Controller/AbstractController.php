@@ -35,7 +35,7 @@ abstract class AbstractController
      * @Inject
      * @var RequestInterface
      */
-    protected   $request;
+    protected $request;
 
     /**
      * @Inject

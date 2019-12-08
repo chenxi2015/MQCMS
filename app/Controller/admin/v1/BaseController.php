@@ -93,7 +93,6 @@ class BaseController extends AbstractController
      */
     public function resetAttributes()
     {
-        $this->allows = [];
         $this->condition = [];
         $this->select = ['*'];
         $this->orderBy = 'id desc';
