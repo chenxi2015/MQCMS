@@ -7,10 +7,15 @@ declare(strict_types=1);
 namespace App\Controller\api\v1;
 
 use App\Service\UserService;
+use Hyperf\Di\Annotation\Inject;
 
 class UserController extends BaseController
 {
-    public $service = UserService::class;
+    /**
+     * @Inject()
+     * @var UserService
+     */
+    public $service;
 
     protected $allows = ['index'];
 

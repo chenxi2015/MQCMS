@@ -4,14 +4,16 @@ declare(strict_types=1);
 namespace App\Controller\api\v1;
 
 use App\Service\TagService;
+use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 
 class TagController extends BaseController
 {
     /**
-     * @var TagService $service
+     * @Inject()
+     * @var TagService
      */
-    public $service = TagService::class;
+    public $service;
 
     /**
      * 不需要验证token有效性

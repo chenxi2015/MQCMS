@@ -5,14 +5,16 @@ namespace App\Controller\admin\v1;
 
 use App\Controller\AbstractController;
 use App\Service\BaseService;
+use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 
 class BaseController extends AbstractController
 {
     /**
-     * @var string
+     * @Inject()
+     * @var BaseService
      */
-    public $service = BaseService::class;
+    public $service;
 
     /**
      * 验证token是否合法 allows里面不需要验证
@@ -51,11 +53,6 @@ class BaseController extends AbstractController
     public $data = [];
 
     /**
-     * @var mixed
-     */
-    public $block;
-
-    /**
      * @var string
      */
     protected $jwtKeyName = 'JWT_ADMIN_KEY';
@@ -81,14 +78,6 @@ class BaseController extends AbstractController
     protected $jwtKeyIss = 'JWT_ADMIN_ISS';
 
     /**
-     * BaseController constructor.
-     */
-    public function __construct()
-    {
-        $this->block = $this->setBlock();
-    }
-
-    /**
      * 重置属性值
      */
     public function resetAttributes()
@@ -101,24 +90,16 @@ class BaseController extends AbstractController
     }
 
     /**
-     * @return mixed
-     */
-    public function setBlock()
-    {
-        return new $this->service();
-    }
-
-    /**
      * @param RequestInterface $request
      */
     public function beforeAction(RequestInterface $request)
     {
         $this->validateIsAllow();
-        $this->block->condition = $this->condition;
-        $this->block->select    = $this->select;
-        $this->block->orderBy   = $this->orderBy;
-        $this->block->groupBy   = $this->groupBy;
-        $this->block->data      = $this->data;
+        $this->service->condition = $this->condition;
+        $this->service->select    = $this->select;
+        $this->service->orderBy   = $this->orderBy;
+        $this->service->groupBy   = $this->groupBy;
+        $this->service->data      = $this->data;
         $this->resetAttributes();
     }
 
@@ -130,7 +111,7 @@ class BaseController extends AbstractController
     public function index(RequestInterface $request)
     {
         $this->beforeAction($request);
-        return $this->block->index($request);
+        return $this->service->index($request);
     }
 
     /**
@@ -141,7 +122,7 @@ class BaseController extends AbstractController
     public function show(RequestInterface $request)
     {
         $this->beforeAction($request);
-        return $this->block->show($request);
+        return $this->service->show($request);
     }
 
     /**
@@ -152,7 +133,7 @@ class BaseController extends AbstractController
     public function update(RequestInterface $request)
     {
         $this->beforeAction($request);
-        return $this->block->update($request);
+        return $this->service->update($request);
     }
 
     /**
@@ -163,7 +144,7 @@ class BaseController extends AbstractController
     public function delete(RequestInterface $request)
     {
         $this->beforeAction($request);
-        return $this->block->delete($request);
+        return $this->service->delete($request);
     }
 
     /**
@@ -174,6 +155,6 @@ class BaseController extends AbstractController
     public function store(RequestInterface $request)
     {
         $this->beforeAction($request);
-        return $this->block->store($request);
+        return $this->service->store($request);
     }
 }

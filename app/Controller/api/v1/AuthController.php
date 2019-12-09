@@ -11,6 +11,7 @@ use App\Exception\BusinessException;
 use App\Service\UserService;
 use App\Utils\Common;
 use App\Utils\JWT;
+use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Contract\RequestInterface;
 
@@ -21,7 +22,11 @@ use Hyperf\HttpServer\Contract\RequestInterface;
  */
 class AuthController extends BaseController
 {
-    public $service = UserService::class;
+    /**
+     * @Inject()
+     * @var UserService
+     */
+    public $service;
 
     protected $allows = ['register', 'login'];
 
