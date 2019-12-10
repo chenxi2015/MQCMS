@@ -109,11 +109,11 @@ class AuthController extends BaseController
             throw new BusinessException(ErrorCode::BAD_REQUEST, '用户不存在');
         }
 
-        if ($userInfo->password != Common::generatePasswordHash($password, $userInfo->salt)) {
+        if ($userInfo['password'] != Common::generatePasswordHash($password, $userInfo['salt'])) {
             throw new BusinessException(ErrorCode::BAD_REQUEST, '密码不正确');
         }
 
-        $token = $this->createAuthToken(['id' => $userInfo->id]);
+        $token = $this->createAuthToken(['id' => $userInfo['id']]);
         return $this->response->json(['token' => $token, 'expire_time' => JWT::$leeway]);
     }
 
