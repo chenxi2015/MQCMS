@@ -61,14 +61,6 @@ Router::addGroup('/api/', function () {
 Router::addGroup('/admin/', function () {
     Router::addGroup('v1/', function () {
 
-        // token
-        Router::addGroup('token/', function () {
-            // 创建token
-            Router::post('create', 'App\Controller\admin\v1\tokencontroller@store');
-            // 获取token信息
-            Router::get('info', 'App\Controller\admin\v1\TokenController@index', ['middleware' => [AuthMiddleware::class]]);
-        });
-
         // auth
         Router::addGroup('auth/', function () {
             Router::post('login', 'App\Controller\admin\v1\AuthController@login');
@@ -80,6 +72,15 @@ Router::addGroup('/admin/', function () {
             Router::get('index', 'App\Controller\admin\v1\UserController@index');
             Router::post('store', 'App\Controller\admin\v1\UserController@store');
             Router::post('update', 'App\Controller\admin\v1\UserController@update');
+        }, ['middleware' => [AuthMiddleware::class]]);
+
+        // 标签
+        Router::addGroup('tag/', function () {
+            Router::get('index', 'App\Controller\admin\v1\TagController@index');
+            Router::get('show', 'App\Controller\admin\v1\TagController@show');
+            Router::post('store', 'App\Controller\admin\v1\TagController@store');
+            Router::post('delete', 'App\Controller\admin\v1\TagController@delete');
+            Router::post('update', 'App\Controller\admin\v1\TagController@update');
         }, ['middleware' => [AuthMiddleware::class]]);
 
     });

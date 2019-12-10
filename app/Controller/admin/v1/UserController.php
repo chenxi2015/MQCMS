@@ -8,11 +8,16 @@ use App\Constants\ErrorCode;
 use App\Exception\BusinessException;
 use App\Service\UserService;
 use App\Utils\Common;
+use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 
 class UserController extends BaseController
 {
-    public $service = UserService::class;
+    /**
+     * @Inject()
+     * @var UserService
+     */
+    public $service;
 
     public function index(RequestInterface $request)
     {
@@ -86,6 +91,7 @@ class UserController extends BaseController
             'real_name' => 'required',
             'phone' => 'required'
         ], 400, '参数错误');
+
         $id = $request->input('id');
         $userName = $request->input('user_name');
         $realName = $request->input('real_name');

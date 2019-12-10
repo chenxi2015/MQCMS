@@ -5,14 +5,16 @@ namespace App\Controller\api\v1;
 
 use App\Service\PostService;
 use App\Utils\Common;
+use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 
 class PostController extends BaseController
 {
     /**
-     * @var string
+     * @Inject()
+     * @var PostService
      */
-    public $service = PostService::class;
+    public $service;
 
     /**
      * 获取帖子列表分页

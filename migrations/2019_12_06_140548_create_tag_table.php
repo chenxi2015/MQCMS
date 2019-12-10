@@ -19,6 +19,7 @@ class CreateTagTable extends Migration
                 $table->unsignedInteger('first_create_user_id')->nullable(false)->comment('第一个创建的人的用户id');
                 $table->string('tag_name', 64)->nullable(false)->comment('标签名称');
                 $table->unsignedTinyInteger('is_hot')->nullable(false)->default(0)->comment('是否热门 0：正常 1：热门');
+                $table->unsignedTinyInteger('tag_type')->nullable(false)->default(1)->comment('状态 1：正常 0：禁用（删除）');
                 $table->unsignedTinyInteger('status')->nullable(false)->default(1)->comment('状态 1：正常 0：禁用（删除）');
                 $table->unsignedInteger('used_count')->nullable(false)->default(1)->comment('被使用的次数');
                 $table->unsignedBigInteger('created_at')->nullable();
