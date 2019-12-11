@@ -19,7 +19,8 @@ class CreatePostTable extends Migration
                 $table->unsignedInteger('user_id')->nullable(false)->comment('发布者id');
                 $table->string('post_content', 200)->nullable(false)->default('')->comment('内容');
                 $table->string('link_url', 200)->nullable(false)->default('')->comment('发布内容绑定的url');
-                $table->unsignedTinyInteger('label_type')->nullable(false)->default(0)->comment('标签类型 1：单图，2：多类别（视频，图片）3：商品');
+                $table->unsignedTinyInteger('label_type')->nullable(false)->default(0)->comment('资源类型 1：单图，2：视频，3：多类别（视频，图片）');
+                $table->unsignedTinyInteger('is_good')->nullable(false)->default(0)->comment('是否有商品 0：无，1：有');
                 $table->string('relation_tags', 255)->nullable(false)->default('')->comment('关联标签 标签1,标签2...');
                 $table->string('address', 255)->nullable(false)->default('')->comment('地址');
                 $table->string('addr_lat', 16)->nullable(false)->default('')->comment('地址纬度');
