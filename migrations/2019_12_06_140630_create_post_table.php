@@ -33,7 +33,8 @@ class CreatePostTable extends Migration
                 $table->unsignedBigInteger('like_total')->nullable(false)->default(0)->comment('点赞总数');
                 $table->unsignedBigInteger('favorite_total')->nullable(false)->default(0)->comment('收藏总数');
                 $table->unsignedBigInteger('comment_total')->nullable(false)->default(0)->comment('评论总数');
-                $table->timestamps();
+                $table->unsignedBigInteger('created_at')->nullable();
+                $table->unsignedBigInteger('updated_at')->nullable();
             });
         }
     }
