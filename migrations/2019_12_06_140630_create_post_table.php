@@ -30,6 +30,8 @@ class CreatePostTable extends Migration
                 $table->unsignedTinyInteger('is_publish')->nullable(false)->default(1)->comment('是否发布 1：发布 0：未发布（草稿）');
                 $table->unsignedTinyInteger('status')->nullable(false)->default(1)->comment('状态 1：正常 0：删除');
                 $table->unsignedTinyInteger('is_recommend')->nullable(false)->default(0)->comment('是否推荐 1：推荐 0：正常');
+                $table->unsignedBigInteger('like_total')->nullable(false)->default(0)->comment('点赞总数');
+                $table->unsignedBigInteger('favorite_total')->nullable(false)->default(0)->comment('收藏总数');
                 $table->timestamps();
             });
         }
