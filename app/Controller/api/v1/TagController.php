@@ -22,17 +22,14 @@ class TagController extends BaseController
     protected $allows = ['index', 'show'];
 
     /**
+     * 标签列表
      * @param RequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function index(RequestInterface $request)
     {
-        $type = $request->input('type', 'default');
-        if ($type === 'hot') {
-            $this->condition[] = ['is_hot', '=', 1];
-        } else {
-            $this->condition = [['status', '=', 1]];
-        }
+        $this->condition[] = ['status', '=', 1];
+        $this->orderBy = 'is_hot DESC, id DESC';
         return parent::index($request);
     }
 

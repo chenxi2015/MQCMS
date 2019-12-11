@@ -31,7 +31,7 @@ class PostController extends BaseController
         if ($type === 'recommend') {
             $this->condition[] = ['is_recommend', '=', 1];
         }
-
+        $this->orderBy = 'id DESC';
         $list = parent::index($request);
 
         foreach ($list['data'] as $key => &$value) {
